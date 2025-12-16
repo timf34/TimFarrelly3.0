@@ -23,9 +23,58 @@ const { title } = Astro.props;
   </head>
   <body>
     <div class="noise-gradient"></div>
+    
+    <div class="header-wrapper">
+      <header class="gradient-header">
+        <div class="header-content">
+          <p class="header-tagline">Building tools for human flourishing</p>
+          <div class="header-meta">
+            <div class="header-location">
+              <span class="meta-label">Dublin</span>
+              <span class="meta-value">Local Time → <span id="local-time">--:--</span></span>
+            </div>
+            <div class="header-date">
+              <span class="meta-label" id="day-name">--</span>
+              <span class="meta-value" id="full-date">--</span>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+    
     <div class="two-pane">
       <slot />
     </div>
+    
+    <script>
+      function updateTime() {
+        const now = new Date();
+        const timeEl = document.getElementById('local-time');
+        const dayEl = document.getElementById('day-name');
+        const dateEl = document.getElementById('full-date');
+        
+        if (timeEl) {
+          timeEl.textContent = now.toLocaleTimeString('en-IE', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false 
+          });
+        }
+        if (dayEl) {
+          dayEl.textContent = now.toLocaleDateString('en-IE', { weekday: 'long' });
+        }
+        if (dateEl) {
+          dateEl.textContent = now.toLocaleDateString('en-IE', { 
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+        }
+      }
+      
+      updateTime();
+      setInterval(updateTime, 1000);
+    </script>
   </body>
 </html>
 
@@ -42,8 +91,9 @@ const { title } = Astro.props;
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    opacity: 0.15;
+    opacity: 0.1;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: 1000;
   }
 
   body {
@@ -54,31 +104,96 @@ const { title } = Astro.props;
     line-height: 1.6;
   }
 
+  /* Header Styles */
+  .header-wrapper {
+	padding: 0 3rem 1.5rem 3rem;
+	}
+
+  .gradient-header {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background-image: url('/short.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+  }
+
+  .header-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header-tagline {
+    font-family: "EB Garamond", serif;
+    font-size: 1.2rem;
+    color: rgba(14, 32, 47, 0.7);
+    margin: 0;
+    max-width: 280px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 3rem;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.8rem;
+  }
+
+  .header-location,
+  .header-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label {
+    color: rgba(14, 32, 47, 0.8);
+  }
+
+  .meta-value {
+    color: rgba(14, 32, 47, 0.6);
+  }
+
+  /* Two Pane Layout */
   a {
     color: #0e202f;
   }
 
   .two-pane {
     display: flex;
-    height: 100vh;
     position: relative;
+    min-height: calc(100vh - 180px - 3.5rem);
   }
 
   #main-content {
     box-sizing: border-box;
-    padding: 10vh 4em 10vh 6em;
+    padding: 4vh 4em 10vh 6em;
     flex: 0 0 50%;
-    max-height: 100vh;
+    max-height: calc(100vh - 180px - 3.5rem);
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #main-content::-webkit-scrollbar {
+    display: none;
   }
 
   #canvas-pane {
     box-sizing: border-box;
     flex: 0 0 50%;
-    max-height: 100vh;
+    height: calc(100vh - 180px - 3.5rem);
     overflow: hidden;
     border-left: 2px solid rgba(169, 186, 164, 0.2);
-    position: relative;
+    position: sticky;
+    top: 0;
   }
 
   @keyframes fadeIn {
@@ -102,6 +217,7 @@ const { title } = Astro.props;
   h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5em;
+    margin-top: 0;
     font-weight: 600;
   }
 
@@ -147,6 +263,25 @@ const { title } = Astro.props;
   }
 
   @media only screen and (max-width: 900px), only screen and (orientation: portrait) {
+    .header-wrapper {
+      padding: 1rem 1rem 1rem 1rem;
+    }
+
+    .gradient-header {
+      height: 140px;
+    }
+
+    .header-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .header-meta {
+      gap: 2rem;
+    }
+
     .two-pane {
       display: block;
     }
@@ -155,8 +290,9 @@ const { title } = Astro.props;
       position: fixed;
       top: 0;
       left: 0;
+      right: 0;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       z-index: -1;
       border-left: none;
       opacity: 0.3;
@@ -165,8 +301,7 @@ const { title } = Astro.props;
     #main-content {
       max-height: none;
       overflow-y: visible;
-      padding: 8vh 2em;
-      background: rgba(230, 225, 212, 0.9);
+      padding: 4vh 2em 6vh 2em;
     }
 
     .socials {
@@ -176,7 +311,7 @@ const { title } = Astro.props;
 
   @media all and (max-width: 1200px) {
     #main-content {
-      padding: 8vh 3em;
+      padding: 4vh 3em;
     }
   }
 </style>
