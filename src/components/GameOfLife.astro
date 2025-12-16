@@ -1,0 +1,152 @@
+---
+// Game of Life Canvas Component
+---
+
+<div id="canvas-pane">
+  <canvas id="canvas"></canvas>
+</div>
+
+<script>
+  const c = document.getElementById("canvas") as HTMLCanvasElement;
+  const ctx = c.getContext("2d")!;
+
+  let x = 0;
+  let y = 0;
+  let w = 0;
+  let h = 0;
+  let animationFrameHandle = 0;
+  let then = Date.now();
+
+  const fps = 5;
+  const fpsInterval = 1000 / fps;
+  const cellSize = 10;
+
+  let cells: Cell[] = [];
+
+  class Cell {
+    x: number;
+    y: number;
+    alive: boolean;
+    nextAlive: boolean;
+    age: number;
+
+    constructor(x: number, y: number) {
+      this.x = x;
+      this.y = y;
+      this.alive = Math.random() > 0.85;
+      this.nextAlive = false;
+      this.age = 0;
+    }
+
+    static get(x: number, y: number): Cell {
+      const i = x + y * Math.ceil(w / cellSize);
+      return cells[i];
+    }
+
+    static isAlive(x: number, y: number): number {
+      const i = x + y * Math.ceil(w / cellSize);
+      if (i < 0 || i >= cells.length) {
+        return 0;
+      }
+      return cells[i]?.alive ? 1 : 0;
+    }
+
+    update() {
+      const x = this.x;
+      const y = this.y;
+      const numAlive =
+        Cell.isAlive(x - 1, y - 1) +
+        Cell.isAlive(x, y - 1) +
+        Cell.isAlive(x + 1, y - 1) +
+        Cell.isAlive(x - 1, y) +
+        Cell.isAlive(x + 1, y) +
+        Cell.isAlive(x - 1, y + 1) +
+        Cell.isAlive(x, y + 1) +
+        Cell.isAlive(x + 1, y + 1);
+
+      if (numAlive == 2) {
+        this.age++;
+        this.nextAlive = this.alive;
+      } else if (numAlive == 3) {
+        this.nextAlive = true;
+        this.age = 0;
+      } else {
+        this.age++;
+        this.nextAlive = false;
+      }
+    }
+
+    draw() {
+      this.alive = this.nextAlive;
+      const beingHovered = x == this.x && y == this.y;
+      if (this.alive || beingHovered) {
+        ctx.fillStyle = `rgba(169, 186, 164, ${Math.max(0, Math.pow(Math.E, -this.age / 2)) / 6})`;
+        ctx.fillRect(this.x * cellSize, this.y * cellSize, cellSize, cellSize);
+      }
+    }
+  }
+
+  function gameloop() {
+    animationFrameHandle = window.requestAnimationFrame(gameloop);
+    const now = Date.now();
+    const elapsed = now - then;
+
+    if (elapsed > fpsInterval) {
+      then = now - (elapsed % fpsInterval);
+
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (const cell of cells) {
+        cell.update();
+      }
+      for (const cell of cells) {
+        cell.draw();
+      }
+    }
+  }
+
+  let windowWidth = 0;
+  function redrawCanvas() {
+    if (window.innerWidth != windowWidth) {
+      windowWidth = window.innerWidth;
+
+      w = Math.ceil(c.offsetWidth);
+      ctx.canvas.width = w;
+      h = Math.ceil(c.offsetHeight);
+      ctx.canvas.height = h;
+
+      if (animationFrameHandle) {
+        cancelAnimationFrame(animationFrameHandle);
+      }
+
+      cells = [];
+      for (let cy = 0; cy < Math.ceil(h / cellSize); cy++) {
+        for (let cx = 0; cx < Math.ceil(w / cellSize); cx++) {
+          cells.push(new Cell(cx, cy));
+        }
+      }
+
+      animationFrameHandle = window.requestAnimationFrame(gameloop);
+    }
+  }
+
+  function manuallySpawnCell(cellX: number, cellY: number) {
+    const cell = Cell.get(cellX, cellY);
+    if (cell) {
+      cell.alive = true;
+      cell.age = 0;
+      cell.draw();
+      cell.alive = true;
+    }
+  }
+
+  const canvasPane = document.getElementById("canvas-pane");
+  canvasPane?.addEventListener("mousemove", function (event) {
+    const bounds = c.getBoundingClientRect();
+    x = Math.round((event.clientX - bounds.left) / cellSize) - 1;
+    y = Math.round((event.clientY - bounds.top) / cellSize);
+    manuallySpawnCell(x, y);
+  });
+
+  redrawCanvas();
+  window.addEventListener("resize", redrawCanvas);
+</script>
