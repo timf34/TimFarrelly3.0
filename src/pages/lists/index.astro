@@ -1,0 +1,315 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SorollaGraphic from '../../components/SorollaGraphic.astro';
+import { getCollection } from 'astro:content';
+
+const lists = await getCollection('lists');
+---
+
+<Layout title="Lists | Tim Farrelly">
+
+  <!-- Header -->
+  <header class="header-wrapper">
+    <div class="header">
+      <img src="/short.jpg" alt="" class="header-img" />
+      <div class="header-text">
+        <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
+        <div class="header-meta">
+          <div class="meta-block">
+            <span class="meta-value">Dublin → <span id="time">--:--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="grid">
+
+    <!-- Menu (centered in column 1) -->
+    <nav class="col-menu">
+      <ul>
+        <li><a href="/">About</a></li>
+        <li><a href="/art">Art Gallery</a></li>
+        <li><strong>Lists</strong></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/notes">Notes</a></li>
+      </ul>
+    </nav>
+
+    <!-- Content (centered in column 2) -->
+    <article class="col-content">
+      <div class="content-inner">
+        <p>A collection of lists I've found interesting or useful.</p>
+
+        <ul class="list-links">
+          {lists.map((list) => (
+            <li>
+              <a href={`/lists/${list.slug}`}>{list.data.title}</a>
+              {list.data.description && <span class="description"> - {list.data.description}</span>}
+            </li>
+          ))}
+        </ul>
+
+        {lists.length === 0 && (
+          <p><em>No lists yet.</em></p>
+        )}
+      </div>
+    </article>
+
+    <!-- Artwork (centered in column 3) -->
+    <aside class="col-art">
+      <div class="art-frame">
+        <canvas id="artwork"></canvas>
+      </div>
+    </aside>
+
+  </main>
+
+  <SorollaGraphic />
+
+  <script>
+    // Time display
+    function updateTime() {
+      const el = document.getElementById('time');
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString('en-IE', {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Artwork
+    import { getRandomArtwork } from '../../artworks/index.js';
+
+    const canvas = document.getElementById('artwork');
+    if (canvas) {
+      const resize = () => {
+        const parent = canvas.parentElement;
+        if (parent) {
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+        }
+      };
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      // Start random artwork
+      const artwork = getRandomArtwork();
+      artwork(canvas);
+    }
+
+    // Center artwork vertically in viewport
+    function centerArtwork() {
+      const artCol = document.querySelector('.col-art');
+      const artFrame = document.querySelector('.art-frame');
+
+      if (artCol && artFrame) {
+        const viewportHeight = window.innerHeight;
+        const artworkHeight = artFrame.offsetHeight;
+        const artColTop = artCol.getBoundingClientRect().top + window.scrollY;
+
+        // Where we want the artwork's top to be (centered in viewport)
+        const targetTop = (viewportHeight - artworkHeight) / 2;
+
+        // Padding needed to get there from where col-art starts
+        const paddingTop = Math.max(0, targetTop - artColTop);
+
+        artCol.style.paddingTop = `${paddingTop}px`;
+      }
+    }
+
+    // Run after layout settles
+    requestAnimationFrame(centerArtwork);
+    window.addEventListener('resize', centerArtwork);
+  </script>
+</Layout>
+
+<style>
+  /* ===== HEADER ===== */
+  .header-wrapper {
+    --header-width: 94%;
+    --header-radius: 16px;
+
+    display: flex;
+    justify-content: center;
+    padding: 0 0 2rem 0;
+  }
+
+  .header {
+    position: relative;
+    width: var(--header-width);
+    height: 75px;
+    border-radius: 0 0 var(--header-radius) var(--header-radius);
+    overflow: hidden;
+  }
+
+  .header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .header-text {
+    position: absolute;
+    bottom: 12px;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header-tagline {
+    font-size: 1rem;
+    color: rgba(14, 32, 47, 0.8);
+  }
+
+  .header-meta {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+  }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .meta-value {
+    color: rgba(14, 32, 47, 0.6);
+  }
+
+  /* ===== GRID ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: 10% 40% 50%;
+    align-items: start;
+    padding-bottom: 4rem;
+  }
+
+  /* Menu - column 1, centered */
+  .col-menu {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-menu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .col-menu a {
+    text-decoration: none;
+  }
+
+  .col-menu a:hover {
+    text-decoration: underline;
+  }
+
+  /* Content - column 2, centered */
+  .col-content {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+  }
+
+  .content-inner {
+    width: 85%;
+  }
+
+  .content-inner p {
+    margin: 0 0 1.25rem;
+  }
+
+  .list-links {
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .list-links li {
+    margin-bottom: 0.5rem;
+  }
+
+  .description {
+    color: rgba(14, 32, 47, 0.6);
+    font-size: 0.95em;
+  }
+
+  /* Artwork - column 3, centered */
+  .col-art {
+    grid-column: 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+
+  .art-frame {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(14, 32, 47, 0.15);
+    background: #e6e1d4;
+    overflow: hidden;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 900px) {
+    .header-wrapper {
+      --header-width: 95%;
+      padding: 0.5rem 0 1.5rem 0;
+    }
+
+    .header {
+      height: 80px;
+    }
+
+    .header-text {
+      left: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: block;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .col-menu {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .col-menu ul {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .col-content {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .content-inner {
+      width: 100%;
+    }
+
+    .col-art {
+      justify-content: flex-start;
+      padding-top: 0;
+    }
+  }
+</style>
