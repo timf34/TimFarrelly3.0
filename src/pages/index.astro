@@ -5,11 +5,13 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Tim Farrelly">
   
   <!-- Header -->
-  <header class="header">
-    <img src="/short.jpg" alt="" class="header-img" />
-    <div class="header-text">
-      <span>Tim Farrelly, Engineer, Founder</span>
-      <span>Dublin: <span id="time">--:--</span></span>
+  <header class="header-wrapper">
+    <div class="header">
+      <img src="/short.jpg" alt="" class="header-img" />
+      <div class="header-text">
+        <span><b>Tim Farrelly, Engineer, Founder</b></span>
+        <span>Dublin: <span id="time">--:--</span></span>
+      </div>
     </div>
   </header>
 
@@ -105,15 +107,28 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  /* Header */
+  /* ===== HEADER ===== */
+  /* Adjust --header-width to change banner width (e.g., 90%, 80%, 100%) */
+  .header-wrapper {
+    --header-width: 94%;
+    --header-radius: 16px;
+    
+    display: flex;
+    justify-content: center;
+    padding: 0 0 2rem 0;
+  }
+
   .header {
     position: relative;
-    margin-bottom: 3rem;
+    width: var(--header-width);
+    height: 75px;
+    border-radius: 0 0 var(--header-radius) var(--header-radius);
+    overflow: hidden;
   }
 
   .header-img {
     width: 100%;
-    height: 100px;
+    height: 100%;
     object-fit: cover;
     display: block;
   }
@@ -126,9 +141,10 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     justify-content: space-between;
     font-size: 1rem;
+    color: rgba(14, 32, 47, 0.8);
   }
 
-  /* Grid: 10% menu | 40% content | 50% art */
+  /* ===== GRID ===== */
   .grid {
     display: grid;
     grid-template-columns: 10% 40% 50%;
@@ -202,16 +218,26 @@ import Layout from '../layouts/Layout.astro';
     overflow: hidden;
   }
 
-  /* Mobile */
+  /* ===== MOBILE ===== */
   @media (max-width: 900px) {
-    .grid {
-      display: block;
-      padding: 0 1.5rem 3rem;
+    .header-wrapper {
+      --header-width: 95%;
+      padding: 0.5rem 0 1.5rem 0;
+    }
+
+    .header {
+      height: 80px;
     }
 
     .header-text {
-      left: 1.5rem;
-      right: 1.5rem;
+      left: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: block;
+      padding: 0 1.5rem 3rem;
     }
 
     .col-menu {
