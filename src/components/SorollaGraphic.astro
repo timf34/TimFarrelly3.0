@@ -1,0 +1,123 @@
+---
+// Sorolla Graphic - hidden surprise at the bottom of the page
+// TODO: Make the graphics dynamic
+---
+
+<div class="sorolla-container">
+  <img id="sorolla-image" src="/sorolla_cropped.jpg" alt="" class="sorolla-img" />
+  <canvas id="sorolla-canvas"></canvas>
+  <div class="sorolla-quote">There are cathedrals everywhere
+For those with the eyes to see</div>
+</div>
+
+<script>
+  const img = document.getElementById('sorolla-image') as HTMLImageElement;
+  const canvas = document.getElementById('sorolla-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d');
+
+  const CONFIG = {
+    lineThickness: 0.12,
+    circleThickness: 0.12,
+    quoteMargin: 20,
+  };
+
+  function draw() {
+    if (!ctx || !img) return;
+    
+    const w = img.offsetWidth;
+    const h = img.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(dpr, dpr);
+
+    ctx.strokeStyle = 'white';
+    ctx.lineCap = 'round';
+
+    const halfHeight = h / 2;
+    const centerX = w / 2;
+    const leftX = centerX - halfHeight;
+    const rightX = centerX + halfHeight;
+    const circleRadius = halfHeight;
+
+    const lines = [
+      { x1: leftX, y1: 0, x2: leftX, y2: h },
+      { x1: rightX, y1: 0, x2: rightX, y2: h },
+      { x1: centerX, y1: 0, x2: centerX, y2: h },
+      { x1: leftX, y1: 0, x2: rightX, y2: h },
+      { x1: rightX, y1: 0, x2: leftX, y2: h },
+    ];
+
+    const circles = [
+      { x: centerX, y: h / 2, radius: circleRadius },
+      { x: leftX, y: 4 * h / 5, radius: h / 5 },
+      { x: 13 * w / 32, y: 11 * h / 12, radius: h / 12 },
+    ];
+
+    ctx.lineWidth = (CONFIG.lineThickness / 100) * w;
+    lines.forEach(line => {
+      ctx.beginPath();
+      ctx.moveTo(line.x1, line.y1);
+      ctx.lineTo(line.x2, line.y2);
+      ctx.stroke();
+    });
+
+    ctx.lineWidth = (CONFIG.circleThickness / 100) * w;
+    circles.forEach(circle => {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+
+    // Position quote
+    const quote = document.querySelector('.sorolla-quote') as HTMLElement;
+    if (quote) {
+      const fontSize = h * 0.035;
+      quote.style.fontSize = fontSize + 'px';
+      quote.style.left = (centerX + CONFIG.quoteMargin) + 'px';
+      quote.style.top = (h * 0.90) + 'px';
+    }
+  }
+
+  img.onload = draw;
+  window.addEventListener('resize', draw);
+  if (img.complete) draw();
+</script>
+
+<style>
+  .sorolla-container {
+    width: 100%;
+    position: relative;
+    margin-top: 8rem;
+  }
+
+  .sorolla-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  #sorolla-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .sorolla-quote {
+    position: absolute;
+    color: white;
+    font-family: "EB Garamond", serif;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.6;
+    white-space: pre-line;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+</style>
