@@ -5,9 +5,13 @@
 <div class="sorolla-container">
   <img id="sorolla-image" src="/sorolla_cropped.jpg" alt="" class="sorolla-img" />
   <canvas id="sorolla-canvas"></canvas>
-  <div class="sorolla-quote">There are cathedrals everywhere
-For those with the eyes to see</div>
+  <div class="sorolla-quote">
+  <span class="quote-backdrop"></span>
+  <span class="quote-text">There are cathedrals everywhere
+For those with the eyes to see</span>
 </div>
+</div>
+
 
 <script>
   const img = document.getElementById('sorolla-image') as HTMLImageElement;
@@ -185,17 +189,41 @@ For those with the eyes to see</div>
     pointer-events: none;
   }
 
-  .sorolla-quote {
+    .sorolla-quote {
     position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    }
+
+    .quote-backdrop {
+    position: absolute;
+    inset: -0.75em -1em;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    }
+
+    .quote-text {
+    position: relative;
     color: white;
     font-family: "EB Garamond", serif;
     font-weight: 600;
     font-style: italic;
     line-height: 1.6;
     white-space: pre-line;
-    pointer-events: none;
     letter-spacing: 0.05em;
     text-align: right;
-    opacity: 0;
-  }
+    display: block;
+    }
+
+    @media (max-width: 900px) {
+    .quote-text {
+        font-size: 1.2em; /* Relative boost on mobile */
+    }
+    }
+
+    @media (max-width: 600px) {
+    .quote-text {
+        font-size: 1.5em; /* Even bigger on small phones */
+    }
+    }
 </style>
