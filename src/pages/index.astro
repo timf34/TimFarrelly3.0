@@ -9,8 +9,12 @@ import Layout from '../layouts/Layout.astro';
     <div class="header">
       <img src="/short.jpg" alt="" class="header-img" />
       <div class="header-text">
-        <span><b>Tim Farrelly, Engineer, Founder</b></span>
-        <span>Dublin: <span id="time">--:--</span></span>
+        <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
+        <div class="header-meta">
+          <div class="meta-block">
+            <span class="meta-value">Dublin → <span id="time">--:--</span></span>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -103,6 +107,30 @@ import Layout from '../layouts/Layout.astro';
       const artwork = getRandomArtwork();
       artwork(canvas);
     }
+
+    // Center artwork vertically in viewport
+    function centerArtwork() {
+      const artCol = document.querySelector('.col-art');
+      const artFrame = document.querySelector('.art-frame');
+      
+      if (artCol && artFrame) {
+        const viewportHeight = window.innerHeight;
+        const artworkHeight = artFrame.offsetHeight;
+        const artColTop = artCol.getBoundingClientRect().top + window.scrollY;
+        
+        // Where we want the artwork's top to be (centered in viewport)
+        const targetTop = (viewportHeight - artworkHeight) / 2;
+        
+        // Padding needed to get there from where col-art starts
+        const paddingTop = Math.max(0, targetTop - artColTop);
+        
+        artCol.style.paddingTop = `${paddingTop}px`;
+      }
+    }
+
+    // Run after layout settles
+    requestAnimationFrame(centerArtwork);
+    window.addEventListener('resize', centerArtwork);
   </script>
 </Layout>
 
@@ -140,8 +168,32 @@ import Layout from '../layouts/Layout.astro';
     right: 2rem;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header-tagline {
     font-size: 1rem;
     color: rgba(14, 32, 47, 0.8);
+  }
+
+  .header-meta {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+  }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .meta-label {
+    color: rgba(14, 32, 47, 0.8);
+  }
+
+  .meta-value {
+    color: rgba(14, 32, 47, 0.6);
   }
 
   /* ===== GRID ===== */
@@ -206,13 +258,15 @@ import Layout from '../layouts/Layout.astro';
     grid-column: 3;
     display: flex;
     justify-content: center;
-    padding-top: 1rem;
+    align-items: flex-start;
+    padding-top: 0; /* JS will set this */
+    background: rgba(255, 0, 0, 0.1);  /* Visualisation for debugging */
   }
 
   .art-frame {
     width: 100%;
     max-width: 400px;
-    aspect-ratio: 1 / 1.2;
+    aspect-ratio: 1 / 1;
     border: 1px solid rgba(14, 32, 47, 0.15);
     background: #e6e1d4;
     overflow: hidden;
