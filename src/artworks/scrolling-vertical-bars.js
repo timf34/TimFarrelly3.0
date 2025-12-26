@@ -40,7 +40,7 @@ export default function scrollingVerticalBars(canvas) {
     scrollPosition += 0.0025;
     const scrollFactor = (Math.sin(scrollPosition) + 1) / 2;
 
-    ctx.fillStyle = '#e6e1d4';
+    ctx.fillStyle = '#efeee7';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < numLines; i++) {

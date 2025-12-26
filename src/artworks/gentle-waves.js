@@ -14,7 +14,7 @@ export default function gentleWaves(canvas) {
     const { width, height } = canvas;
 
     // Clear with background
-    ctx.fillStyle = '#e6e1d4';
+    ctx.fillStyle = '#efeee7';
     ctx.fillRect(0, 0, width, height);
 
     time += 0.005;

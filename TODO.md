@@ -1,0 +1,1 @@
+- [] Make better abstractions for the artworks, should have global variables for things like the background colour which I think should be constant and abstracted away unless I explicitly override it within an art work function
