@@ -3,15 +3,17 @@
 ---
 
 <div class="sorolla-container">
-  <img id="sorolla-image" src="/sorolla_cropped.jpg" alt="" class="sorolla-img" />
+  <picture>
+    <source media="(max-width: 900px)" srcset="/sorolla.jpg" />
+    <img id="sorolla-image" src="/sorolla_cropped.jpg" alt="" class="sorolla-img" />
+  </picture>
   <canvas id="sorolla-canvas"></canvas>
   <div class="sorolla-quote">
-  <span class="quote-backdrop"></span>
-  <span class="quote-text">There are cathedrals everywhere
+    <span class="quote-backdrop"></span>
+    <span class="quote-text">There are cathedrals everywhere
 For those with the eyes to see</span>
+  </div>
 </div>
-</div>
-
 
 <script>
   const img = document.getElementById('sorolla-image') as HTMLImageElement;
@@ -22,7 +24,7 @@ For those with the eyes to see</span>
   const CONFIG = {
     lineThickness: 0.12,
     circleThickness: 0.12,
-    animationDuration: 4200, // ms to fully draw
+    animationDuration: 200,
   };
 
   let animationProgress = 0;
@@ -72,7 +74,6 @@ For those with the eyes to see</span>
     // Draw lines with progress
     ctx.lineWidth = (CONFIG.lineThickness / 100) * w;
     lines.forEach((line, i) => {
-      // Stagger each line's start
       const lineDelay = i * 0.1;
       const lineProgress = Math.max(0, Math.min(1, (progress - lineDelay) / 0.5));
       
@@ -91,7 +92,6 @@ For those with the eyes to see</span>
     // Draw circles with progress (start after lines)
     ctx.lineWidth = (CONFIG.circleThickness / 100) * w;
     circles.forEach((circle, i) => {
-      // Circles start at 50% progress, staggered
       const circleDelay = 0.5 + i * 0.1;
       const circleProgress = Math.max(0, Math.min(1, (progress - circleDelay) / 0.4));
       
@@ -105,17 +105,16 @@ For those with the eyes to see</span>
       }
     });
 
-    // Position and fade in quote (appears near end)
+    // Position and fade in quote
     if (quote) {
-      const fontSize = h * 0.035;
-      const padding = w * 0.02; // 5% padding from edges
+      const fontSize = Math.max(16, Math.min(w, h) * 0.04);
+      const padding = w * 0.03;
       quote.style.fontSize = fontSize + 'px';
       quote.style.right = padding + 'px';
       quote.style.bottom = padding + 'px';
       quote.style.left = 'auto';
       quote.style.top = 'auto';
       
-      // Fade in quote at 80% progress
       const quoteProgress = Math.max(0, Math.min(1, (progress - 0.8) / 0.2));
       quote.style.opacity = String(quoteProgress);
     }
@@ -140,7 +139,6 @@ For those with the eyes to see</span>
     const rect = canvas.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // Start animation when 30% of the image is visible
     if (rect.top < windowHeight * 0.7) {
       hasStartedAnimating = true;
       requestAnimationFrame(animate);
@@ -148,18 +146,14 @@ For those with the eyes to see</span>
   }
 
   function init() {
-    // Initial draw with 0 progress (nothing visible)
     draw(0);
     
-    // Check visibility on scroll
     window.addEventListener('scroll', checkVisibility, { passive: true });
     
-    // Also check on resize
     window.addEventListener('resize', () => {
       draw(animationProgress);
     });
     
-    // Check immediately in case already in view
     checkVisibility();
   }
 
@@ -172,6 +166,11 @@ For those with the eyes to see</span>
     width: 100%;
     position: relative;
     margin-top: 8rem;
+  }
+
+  .sorolla-container picture {
+    display: block;
+    width: 100%;
   }
 
   .sorolla-img {
@@ -189,20 +188,24 @@ For those with the eyes to see</span>
     pointer-events: none;
   }
 
-    .sorolla-quote {
+  .sorolla-quote {
     position: absolute;
     pointer-events: none;
     opacity: 0;
-    }
+  }
 
-    .quote-backdrop {
+  .quote-backdrop {
     position: absolute;
     inset: -0.75em -1em;
-    background: rgba(0, 0, 0, 0.06);
-    border-radius: 6px;
+    background: radial-gradient(
+          ellipse at center,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.05) 75%,
+        rgba(0, 0, 0, 0.0) 100%
+    );
     }
 
-    .quote-text {
+  .quote-text {
     position: relative;
     color: white;
     font-family: "EB Garamond", serif;
@@ -213,17 +216,5 @@ For those with the eyes to see</span>
     letter-spacing: 0.05em;
     text-align: right;
     display: block;
-    }
-
-    @media (max-width: 900px) {
-    .quote-text {
-        font-size: 1.2em; /* Relative boost on mobile */
-    }
-    }
-
-    @media (max-width: 600px) {
-    .quote-text {
-        font-size: 1.5em; /* Even bigger on small phones */
-    }
-    }
+  }
 </style>
