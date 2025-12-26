@@ -1,6 +1,5 @@
 ---
 // Sorolla Graphic - hidden surprise at the bottom of the page
-// TODO: Make the graphics dynamic
 ---
 
 <div class="sorolla-container">
@@ -14,16 +13,25 @@ For those with the eyes to see</div>
   const img = document.getElementById('sorolla-image') as HTMLImageElement;
   const canvas = document.getElementById('sorolla-canvas') as HTMLCanvasElement;
   const ctx = canvas.getContext('2d');
+  const quote = document.querySelector('.sorolla-quote') as HTMLElement;
 
   const CONFIG = {
     lineThickness: 0.12,
     circleThickness: 0.12,
-    quoteMargin: 20,
+    animationDuration: 4200, // ms to fully draw
   };
 
-  function draw() {
+  let animationProgress = 0;
+  let hasStartedAnimating = false;
+  let animationStartTime = 0;
+
+  function easeOutCubic(t: number): number {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function draw(progress: number) {
     if (!ctx || !img) return;
-    
+
     const w = img.offsetWidth;
     const h = img.offsetHeight;
     const dpr = window.devicePixelRatio || 1;
@@ -57,34 +65,102 @@ For those with the eyes to see</div>
       { x: 13 * w / 32, y: 11 * h / 12, radius: h / 12 },
     ];
 
+    // Draw lines with progress
     ctx.lineWidth = (CONFIG.lineThickness / 100) * w;
-    lines.forEach(line => {
-      ctx.beginPath();
-      ctx.moveTo(line.x1, line.y1);
-      ctx.lineTo(line.x2, line.y2);
-      ctx.stroke();
+    lines.forEach((line, i) => {
+      // Stagger each line's start
+      const lineDelay = i * 0.1;
+      const lineProgress = Math.max(0, Math.min(1, (progress - lineDelay) / 0.5));
+      
+      if (lineProgress > 0) {
+        const easedProgress = easeOutCubic(lineProgress);
+        const currentX = line.x1 + (line.x2 - line.x1) * easedProgress;
+        const currentY = line.y1 + (line.y2 - line.y1) * easedProgress;
+
+        ctx.beginPath();
+        ctx.moveTo(line.x1, line.y1);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
+      }
     });
 
+    // Draw circles with progress (start after lines)
     ctx.lineWidth = (CONFIG.circleThickness / 100) * w;
-    circles.forEach(circle => {
-      ctx.beginPath();
-      ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-      ctx.stroke();
+    circles.forEach((circle, i) => {
+      // Circles start at 50% progress, staggered
+      const circleDelay = 0.5 + i * 0.1;
+      const circleProgress = Math.max(0, Math.min(1, (progress - circleDelay) / 0.4));
+      
+      if (circleProgress > 0) {
+        const easedProgress = easeOutCubic(circleProgress);
+        const endAngle = Math.PI * 2 * easedProgress;
+
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.radius, -Math.PI / 2, -Math.PI / 2 + endAngle);
+        ctx.stroke();
+      }
     });
 
-    // Position quote
-    const quote = document.querySelector('.sorolla-quote') as HTMLElement;
+    // Position and fade in quote (appears near end)
     if (quote) {
       const fontSize = h * 0.035;
+      const padding = w * 0.02; // 5% padding from edges
       quote.style.fontSize = fontSize + 'px';
-      quote.style.left = (centerX + CONFIG.quoteMargin) + 'px';
-      quote.style.top = (h * 0.90) + 'px';
+      quote.style.right = padding + 'px';
+      quote.style.bottom = padding + 'px';
+      quote.style.left = 'auto';
+      quote.style.top = 'auto';
+      
+      // Fade in quote at 80% progress
+      const quoteProgress = Math.max(0, Math.min(1, (progress - 0.8) / 0.2));
+      quote.style.opacity = String(quoteProgress);
     }
   }
 
-  img.onload = draw;
-  window.addEventListener('resize', draw);
-  if (img.complete) draw();
+  function animate(timestamp: number) {
+    if (!animationStartTime) animationStartTime = timestamp;
+    
+    const elapsed = timestamp - animationStartTime;
+    animationProgress = Math.min(1, elapsed / CONFIG.animationDuration);
+    
+    draw(animationProgress);
+    
+    if (animationProgress < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  function checkVisibility() {
+    if (hasStartedAnimating) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Start animation when 30% of the image is visible
+    if (rect.top < windowHeight * 0.7) {
+      hasStartedAnimating = true;
+      requestAnimationFrame(animate);
+    }
+  }
+
+  function init() {
+    // Initial draw with 0 progress (nothing visible)
+    draw(0);
+    
+    // Check visibility on scroll
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    
+    // Also check on resize
+    window.addEventListener('resize', () => {
+      draw(animationProgress);
+    });
+    
+    // Check immediately in case already in view
+    checkVisibility();
+  }
+
+  img.onload = init;
+  if (img.complete) init();
 </script>
 
 <style>
@@ -119,5 +195,7 @@ For those with the eyes to see</div>
     white-space: pre-line;
     pointer-events: none;
     letter-spacing: 0.05em;
+    text-align: right;
+    opacity: 0;
   }
 </style>
