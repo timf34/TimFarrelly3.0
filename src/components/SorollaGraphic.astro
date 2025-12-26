@@ -24,7 +24,7 @@ For those with the eyes to see</span>
   const CONFIG = {
     lineThickness: 0.12,
     circleThickness: 0.12,
-    animationDuration: 200,
+    animationDuration: 4200,
   };
 
   let animationProgress = 0;
@@ -92,7 +92,7 @@ For those with the eyes to see</span>
     // Draw circles with progress (start after lines)
     ctx.lineWidth = (CONFIG.circleThickness / 100) * w;
     circles.forEach((circle, i) => {
-      const circleDelay = 0.5 + i * 0.1;
+      const circleDelay = 0.4 + i * 0.08;
       const circleProgress = Math.max(0, Math.min(1, (progress - circleDelay) / 0.4));
       
       if (circleProgress > 0) {
