@@ -10,319 +10,79 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Tim Farrelly - Building at Field of Vision, running Patch, and exploring AI research"
-    />
+    <meta name="description" content="Tim Farrelly" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Roboto+Mono&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
   </head>
   <body>
-    <div class="noise-gradient"></div>
-
-    <div class="header-wrapper">
-      <header class="gradient-header">
-        <div class="header-content">
-          <p class="header-tagline"><b>Tim Farrelly, Founder, Engineer</b></p>
-          <div class="header-meta">
-            <div class="header-location">
-              <span class="meta-label">Dublin</span>
-              <span class="meta-value"
-                >Local Time → <span id="local-time">--:--</span></span
-              >
-            </div>
-            <div class="header-date">
-              <span class="meta-label" id="day-name">--</span>
-              <span class="meta-value" id="full-date">--</span>
-            </div>
-          </div>
-        </div>
-      </header>
+    <!-- Dev Grid (press 'g' to toggle) -->
+    <div class="dev-grid">
+      <div class="line" style="left: 10%"></div>
+      <div class="line" style="left: 25%"></div>
+      <div class="line line-center" style="left: 50%"></div>
+      <div class="line" style="left: 75%"></div>
     </div>
 
-    <div class="two-pane">
-      <slot />
-    </div>
+    <slot />
 
     <script>
-      console.log("Like to view source? We might get along");
-      console.log("timf34 [at] gmail [dot] com");
-      
-      function updateTime() {
-        const now = new Date();
-        const timeEl = document.getElementById("local-time");
-        const dayEl = document.getElementById("day-name");
-        const dateEl = document.getElementById("full-date");
-
-        if (timeEl) {
-          timeEl.textContent = now.toLocaleTimeString("en-IE", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          });
-        }
-        if (dayEl) {
-          dayEl.textContent = now.toLocaleDateString("en-IE", {
-            weekday: "long",
-          });
-        }
-        if (dateEl) {
-          dateEl.textContent = now.toLocaleDateString("en-IE", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          });
-        }
-      }
-
-      updateTime();
-      setInterval(updateTime, 1000);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'g') document.querySelector('.dev-grid')?.classList.toggle('hidden');
+      });
     </script>
   </body>
 </html>
 
 <style is:global>
   html {
-    background-color: #e6e1d4;
-    scroll-behavior: smooth;
-  }
-
-  .noise-gradient {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    opacity: 0.1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    z-index: 1000;
+    background: #F4F4F0;
   }
 
   body {
     font-family: "EB Garamond", serif;
-    font-size: 1.4rem;
-    margin: 0;
-    color: #0e202f;
-    line-height: 1.6;
-  }
-
-  /* Header Styles */
-  .header-wrapper {
-    padding: 0 3rem 1.5rem 3rem;
-  }
-
-  .gradient-header {
-    position: relative;
-    width: 100%;
-    height: 100px;
-    background-image: url("/short.jpg");
-    background-size: cover;
-    background-position: center;
-    border-radius: 0 0 16px 16px;
-    overflow: hidden;
-  }
-
-  .header-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .header-tagline {
-    font-family: "EB Garamond", serif;
     font-size: 1.2rem;
-    color: rgba(14, 32, 47, 0.7);
-    margin: 0;
-    max-width: 280px;
-  }
-
-  .header-meta {
-    display: flex;
-    gap: 3rem;
-    font-family: "Roboto Mono", monospace;
-    font-size: 0.8rem;
-  }
-
-  .header-location,
-  .header-date {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .meta-label {
-    color: rgba(14, 32, 47, 0.8);
-  }
-
-  .meta-value {
-    color: rgba(14, 32, 47, 0.6);
-  }
-
-  /* Two Pane Layout */
-  a {
+    line-height: 1.55;
     color: #0e202f;
+    margin: 0;
   }
 
-  .two-pane {
-    display: flex;
-    position: relative;
-    min-height: calc(100vh - 180px - 3.5rem);
+  a {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
 
-  #main-content {
-    box-sizing: border-box;
-    padding: 4vh 4em 10vh 6em;
-    flex: 0 0 50%;
-    max-height: calc(100vh - 180px - 3.5rem);
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+  a:hover {
+    text-decoration-thickness: 2px;
   }
 
-  #main-content::-webkit-scrollbar {
+  /* Dev Grid */
+  .dev-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .dev-grid.hidden {
     display: none;
   }
 
-  #canvas-pane {
-    box-sizing: border-box;
-    flex: 0 0 50%;
-    height: calc(100vh - 180px - 3.5rem);
-    overflow: hidden;
-    border-left: 2px solid rgba(169, 186, 164, 0.2);
-    position: sticky;
-    top: 0;
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  #canvas {
+  .line {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    animation: fadeIn ease 2s;
+    bottom: 0;
+    border-left: 1px solid rgba(255, 0, 0, 0.25);
   }
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5em;
-    margin-top: 0;
-    font-weight: 600;
-  }
-
-  h5 {
-    font-family: "Roboto Mono", monospace;
-    font-size: 1rem;
-    margin-top: 2em;
-    margin-bottom: 0.5em;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.7;
-  }
-
-  p {
-    margin: 1em 0;
-  }
-
-  ul {
-    padding-left: 1.25em;
-    margin: 0.5em 0;
-  }
-
-  li {
-    margin: 0.3em 0;
-  }
-
-  .socials {
-    opacity: 0.5;
-    padding: 2em 0;
-    list-style: none;
-    font-family: "Roboto Mono", monospace;
-    font-size: 1rem;
-  }
-
-  .socials li {
-    margin: 0.5em 0;
-  }
-
-  .email {
-    font-family: "Roboto Mono", monospace;
-    font-size: 1rem;
-    opacity: 0.7;
-  }
-
-  @media only screen and (max-width: 900px),
-    only screen and (orientation: portrait) {
-    .header-wrapper {
-      padding: 1rem 1rem 1rem 1rem;
-    }
-
-    .gradient-header {
-      height: 140px;
-    }
-
-    .header-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1.25rem 1.5rem;
-    }
-
-    .header-meta {
-      gap: 2rem;
-    }
-
-    .two-pane {
-      display: block;
-    }
-
-    #canvas-pane {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -1;
-      border-left: none;
-      opacity: 0.3;
-    }
-
-    #main-content {
-      max-height: none;
-      overflow-y: visible;
-      padding: 4vh 2em 6vh 2em;
-    }
-
-    .socials {
-      margin-top: 3em;
-    }
-  }
-
-  @media all and (max-width: 1200px) {
-    #main-content {
-      padding: 4vh 3em;
-    }
+  .line-center {
+    border-left-color: rgba(0, 0, 255, 0.25);
   }
 </style>

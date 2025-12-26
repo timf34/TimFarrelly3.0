@@ -1,44 +1,242 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import GameOfLife from '../components/GameOfLife.astro';
 ---
 
 <Layout title="Tim Farrelly">
-  <div id="main-content">
-    <h1>Tim Farrelly</h1>
-    
-    <p>
-      I'm Tim. I'm working on <a href="https://fov.ie/">Field of Vision</a>, with my two friends Omar and David.
-      We are building handheld touchbased devices to help visually impaired sports fans 'watch' live sport. I build
-      everything software, AI and camera related.
-    </p>
-    
-    <p>
-      I also currently run <a href="https://joinpatch.org">Patch</a>, where we find, support and raise 
-      the aspirations of Ireland's most talented youth, co-founded <a href="https://hackireland.com">Hack Ireland</a>, the country's largest student hackathon, 
-      helped start <a href="https://www.demosanon.com">Demos Anon</a>, and recently graduated from a Computer Engineering MAI at TCD.
-    </p>
-    
-    <p>I have also worked on some AI research:</p>
-    <ul>
-      <li>
-        Tried to build a sort of <a href="https://youtu.be/2S9t_jhZmP8?si=YZxdK6ulQyYTOLIw"><em>Empathy Mechanism</em> for AI Agents using counterfactuals</a> with Tom Franzemeyer (Oxford), Christian Schroeder de Witt (Oxford), and Ivana Dusparic (Trinity College Dublin)
-      </li>
-      <li>
-        Tried to identify deception and betrayal in multi-agent reinforcement learning systems with Stuart Armstrong (Oxford)
-      </li>
-    </ul>
-    
-    <p>Here is a page with some of my <strong>favourite art</strong>: <a href="/art">The Gallery</a></p>
-    
-    <h5>Contact</h5>
-    <ul class="socials">
-      <li><a href="https://github.com/timf34">GitHub ↗</a></li>
-      <li><a href="https://www.linkedin.com/in/timfarrelly2000/">LinkedIn ↗</a></li>
-      <li><a href="https://www.instagram.com/tim_farrelly34/">Instagram ↗</a></li>
-      <li class="email">timf34[at]gmail[dot]com</li>
-    </ul>
-  </div>
   
-  <GameOfLife />
+  <!-- Header -->
+  <header class="header">
+    <img src="/short.jpg" alt="" class="header-img" />
+    <div class="header-text">
+      <span>Tim Farrelly, Engineer, Founder</span>
+      <span>Dublin: <span id="time">--:--</span></span>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="grid">
+    
+    <!-- Menu (centered in column 1) -->
+    <nav class="col-menu">
+      <ul>
+        <li><strong>About</strong></li>
+        <li><a href="/art">Art Gallery</a></li>
+        <li><a href="/lists">Lists</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/notes">Notes</a></li>
+      </ul>
+    </nav>
+
+    <!-- Content (centered in column 2) -->
+    <article class="col-content">
+      <div class="content-inner">
+        <p>
+          I'm Tim. I'm working on <a href="https://fov.ie/">Field of Vision</a>, with my two friends 
+          Omar and David. We are building handheld touchbased devices to help visually impaired sports 
+          fans 'watch' live sport. I build everything software, AI and camera related.
+        </p>
+
+        <p>
+          I also currently run <a href="https://joinpatch.org">Patch</a>, where we find, support and raise 
+          the aspirations of Ireland's most talented youth, co-founded <a href="https://hackireland.com">Hack Ireland</a>, 
+          the country's largest student hackathon, helped start <a href="https://www.demosanon.com">Demos Anon</a>, 
+          and recently graduated from a Computer Engineering MAI at TCD.
+        </p>
+
+        <p>I have also worked on some AI research:</p>
+        <ul>
+          <li>
+            Tried to build a sort of <a href="https://youtu.be/2S9t_jhZmP8?si=YZxdK6ulQyYTOLIw"><em>Empathy Mechanism</em> 
+            for AI Agents using counterfactuals</a> with Tom Franzemeyer (Oxford), Christian Schroeder de Witt (Oxford), 
+            and Ivana Dusparic (Trinity College Dublin)
+          </li>
+          <li>
+            Tried to identify deception and betrayal in multi-agent reinforcement learning systems with Stuart Armstrong (Oxford)
+          </li>
+        </ul>
+
+        <p>Here is a page with some of my <strong>favourite art</strong>: <a href="/art">The Gallery</a></p>
+      </div>
+    </article>
+
+    <!-- Artwork (centered in column 3) -->
+    <aside class="col-art">
+      <div class="art-frame">
+        <canvas id="artwork"></canvas>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    // Time display
+    function updateTime() {
+      const el = document.getElementById('time');
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString('en-IE', {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Artwork
+    import { getRandomArtwork } from '../artworks/index.js';
+    
+    const canvas = document.getElementById('artwork');
+    if (canvas) {
+      const resize = () => {
+        const parent = canvas.parentElement;
+        if (parent) {
+          canvas.width = parent.clientWidth;
+          canvas.height = parent.clientHeight;
+        }
+      };
+      
+      resize();
+      window.addEventListener('resize', resize);
+      
+      // Start random artwork
+      const artwork = getRandomArtwork();
+      artwork(canvas);
+    }
+  </script>
 </Layout>
+
+<style>
+  /* Header */
+  .header {
+    position: relative;
+    margin-bottom: 3rem;
+  }
+
+  .header-img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .header-text {
+    position: absolute;
+    bottom: 12px;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+  }
+
+  /* Grid: 10% menu | 40% content | 50% art */
+  .grid {
+    display: grid;
+    grid-template-columns: 10% 40% 50%;
+    align-items: start;
+    padding-bottom: 4rem;
+  }
+
+  /* Menu - column 1, centered */
+  .col-menu {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-menu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .col-menu a {
+    text-decoration: none;
+  }
+
+  .col-menu a:hover {
+    text-decoration: underline;
+  }
+
+  /* Content - column 2, centered */
+  .col-content {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+  }
+
+  .content-inner {
+    width: 85%;
+  }
+
+  .content-inner p {
+    margin: 0 0 1.25rem;
+  }
+
+  .content-inner ul {
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .content-inner li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Artwork - column 3, centered */
+  .col-art {
+    grid-column: 3;
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  .art-frame {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1.2;
+    border: 1px solid rgba(14, 32, 47, 0.15);
+    background: #e6e1d4;
+    overflow: hidden;
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    .grid {
+      display: block;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .header-text {
+      left: 1.5rem;
+      right: 1.5rem;
+    }
+
+    .col-menu {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .col-menu ul {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .col-content {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .content-inner {
+      width: 100%;
+    }
+
+    .col-art {
+      justify-content: flex-start;
+      padding-top: 0;
+    }
+  }
+</style>
