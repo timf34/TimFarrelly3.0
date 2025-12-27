@@ -66,7 +66,7 @@ function getImages(images: string[]) {
 
           {postsByYear[year].map(post => (
             <div class="month-post" data-post-id={post.id}>
-              <h3>{post.title}</h3>
+              <h3><b>{post.title}</b></h3>
 
               <!-- Desktop Grid -->
               <div class="image-grid">
@@ -348,7 +348,7 @@ function getImages(images: string[]) {
   .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
