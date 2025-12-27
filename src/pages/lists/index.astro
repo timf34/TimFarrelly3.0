@@ -1,10 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SorollaGraphic from '../components/SorollaGraphic.astro';
+import Layout from '../../layouts/Layout.astro';
+import SorollaGraphic from '../../components/SorollaGraphic.astro';
+import { getCollection } from 'astro:content';
+
+const lists = await getCollection('lists');
 ---
 
-<Layout title="Tim Farrelly">
-  
+<Layout title="Lists | Tim Farrelly">
+
   <!-- Header -->
   <header class="header-wrapper">
     <div class="header">
@@ -22,12 +25,12 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
 
   <!-- Main Grid -->
   <main class="grid">
-    
+
     <!-- Menu (centered in column 1) -->
     <nav class="col-menu">
       <ul>
-        <li><strong>About</strong></li>
-        <li><a href="/lists">Lists</a></li>
+        <li><a href="/">About</a></li>
+        <li><strong>Lists</strong></li>
         <li><a href="/writing">Writing</a></li>
         <li><a href="/art">Art Gallery</a></li>
         <li><a href="/timeline">Visual Timeline</a></li>
@@ -37,40 +40,20 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     <!-- Content (centered in column 2) -->
     <article class="col-content">
       <div class="content-inner">
-        <p>
-          I'm Tim. I'm working on <a href="https://fov.ie/">Field of Vision</a>, with my two friends 
-          Omar and David. We are building handheld touchbased devices to help visually impaired sports 
-          fans 'watch' live sport. I build everything software, AI and camera related.
-        </p>
+        <p>A collection of lists I've found interesting or useful.</p>
 
-        <p>
-          I also currently run <a href="https://joinpatch.org">Patch</a>, where we find, support and raise 
-          the aspirations of Ireland's most talented youth, co-founded <a href="https://hackireland.com">Hack Ireland</a>, 
-          the country's largest student hackathon, helped start <a href="https://www.demosanon.com">Demos Anon</a>, 
-          and recently graduated from a Computer Engineering MAI at TCD.
-        </p>
-
-        <p>I have also worked on some AI research:</p>
-        <ul>
-          <li>
-            Tried to build a sort of <a href="https://youtu.be/2S9t_jhZmP8?si=YZxdK6ulQyYTOLIw"><em>Empathy Mechanism</em> 
-            for AI Agents using counterfactuals</a> with Tom Franzemeyer (Oxford), Christian Schroeder de Witt (Oxford), 
-            and Ivana Dusparic (Trinity College Dublin)
-          </li>
-          <li>
-            Tried to identify deception and betrayal in multi-agent reinforcement learning systems with Stuart Armstrong (Oxford)
-          </li>
+        <ul class="list-links">
+          {lists.map((list) => (
+            <li>
+              <a href={`/lists/${list.slug}`}>{list.data.title}</a>
+              {list.data.description && <span class="description"> - {list.data.description}</span>}
+            </li>
+          ))}
         </ul>
 
-        <p>Here is a page with some of my <strong>favourite art</strong>: <a href="/art">The Gallery</a></p>
-
-        <b>Contact:</b>
-        <ul>
-            <li><a href="https://github.com/timf34">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/timfarrelly2000/">LinkedIn</a></li>
-            <li><a href="https://www.instagram.com/tim_farrelly34/">Instagram</a></li>
-            <li>timf34[at]gmail[dot]com</li>
-        </ul>
+        {lists.length === 0 && (
+          <p><em>No lists yet.</em></p>
+        )}
       </div>
     </article>
 
@@ -99,8 +82,8 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     setInterval(updateTime, 1000);
 
     // Artwork
-    import { getRandomArtwork } from '../artworks/index.js';
-    
+    import { getRandomArtwork } from '../../artworks/index.js';
+
     const canvas = document.getElementById('artwork');
     if (canvas) {
       const resize = () => {
@@ -110,10 +93,10 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
           canvas.height = parent.clientHeight;
         }
       };
-      
+
       resize();
       window.addEventListener('resize', resize);
-      
+
       // Start random artwork
       const artwork = getRandomArtwork();
       artwork(canvas);
@@ -123,18 +106,18 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     function centerArtwork() {
       const artCol = document.querySelector('.col-art');
       const artFrame = document.querySelector('.art-frame');
-      
+
       if (artCol && artFrame) {
         const viewportHeight = window.innerHeight;
         const artworkHeight = artFrame.offsetHeight;
         const artColTop = artCol.getBoundingClientRect().top + window.scrollY;
-        
+
         // Where we want the artwork's top to be (centered in viewport)
         const targetTop = (viewportHeight - artworkHeight) / 2;
-        
+
         // Padding needed to get there from where col-art starts
         const paddingTop = Math.max(0, targetTop - artColTop);
-        
+
         artCol.style.paddingTop = `${paddingTop}px`;
       }
     }
@@ -147,11 +130,10 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
 
 <style>
   /* ===== HEADER ===== */
-  /* Adjust --header-width to change banner width (e.g., 90%, 80%, 100%) */
   .header-wrapper {
     --header-width: 94%;
     --header-radius: 16px;
-    
+
     display: flex;
     justify-content: center;
     padding: 0 0 2rem 0;
@@ -197,10 +179,6 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     flex-direction: column;
     align-items: flex-end;
     gap: 0.15rem;
-  }
-
-  .meta-label {
-    color: rgba(14, 32, 47, 0.8);
   }
 
   .meta-value {
@@ -255,13 +233,18 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     margin: 0 0 1.25rem;
   }
 
-  .content-inner ul {
+  .list-links {
     margin: 0 0 1.25rem;
     padding-left: 1.25rem;
   }
 
-  .content-inner li {
+  .list-links li {
     margin-bottom: 0.5rem;
+  }
+
+  .description {
+    color: rgba(14, 32, 47, 0.6);
+    font-size: 0.95em;
   }
 
   /* Artwork - column 3, centered */
@@ -270,8 +253,7 @@ import SorollaGraphic from '../components/SorollaGraphic.astro';
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 0; /* JS will set this */
-    /* background: rgba(255, 0, 0, 0.1);  Visualisation for debugging */
+    padding-top: 0;
   }
 
   .art-frame {

@@ -1,0 +1,20 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const lists = await getCollection('lists');
+  return lists.map((list) => ({
+    params: { slug: list.slug },
+    props: { list },
+  }));
+}
+
+const { list } = Astro.props;
+const { Content } = await render(list);
+---
+
+<ContentLayout title={`${list.data.title} | Tim Farrelly`}>
+  <h1>{list.data.title}</h1>
+  <Content />
+</ContentLayout>
