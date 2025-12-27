@@ -1,0 +1,37 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<ContentLayout title={`${post.data.title} | Tim Farrelly`}>
+  <h1>{post.data.title}</h1>
+  {post.data.date && (
+    <p class="date">
+      {new Date(post.data.date).toLocaleDateString('en-IE', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}
+    </p>
+  )}
+  <Content />
+</ContentLayout>
+
+<style>
+  .date {
+    color: rgba(14, 32, 47, 0.6);
+    margin-top: -1rem;
+    font-style: italic;
+  }
+</style>

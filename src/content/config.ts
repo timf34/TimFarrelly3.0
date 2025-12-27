@@ -8,14 +8,13 @@ const lists = defineCollection({
   }),
 });
 
-const projects = defineCollection({
+const writing = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    year: z.number().optional(),
-    url: z.string().optional(),
+    date: z.date().optional(),
     description: z.string().optional(),
   }),
 });
 
-export const collections = { lists, projects };
+export const collections = { lists, writing };

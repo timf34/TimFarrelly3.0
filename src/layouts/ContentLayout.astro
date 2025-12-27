@@ -10,9 +10,9 @@ const currentPath = Astro.url.pathname;
 
 // Determine which menu item should be active
 const isLists = currentPath.startsWith('/lists');
-const isProjects = currentPath.startsWith('/projects');
-const isNotes = currentPath.startsWith('/notes');
+const isWriting = currentPath.startsWith('/writing');
 const isArt = currentPath.startsWith('/art');
+const isTimeline = currentPath.startsWith('/timeline');
 ---
 
 <Layout title={title}>
@@ -39,10 +39,10 @@ const isArt = currentPath.startsWith('/art');
     <nav class="col-menu">
       <ul>
         <li><a href="/">About</a></li>
-        <li><a href="/art">Art Gallery</a></li>
         <li>{isLists ? <strong>Lists</strong> : <a href="/lists">Lists</a>}</li>
-        <li>{isProjects ? <strong>Projects</strong> : <a href="/projects">Projects</a>}</li>
-        <li>{isNotes ? <strong>Notes</strong> : <a href="/notes">Notes</a>}</li>
+        <li>{isWriting ? <strong>Writing</strong> : <a href="/writing">Writing</a>}</li>
+        <li>{isArt ? <strong>Art Gallery</strong> : <a href="/art">Art Gallery</a>}</li>
+        <li>{isTimeline ? <strong>Visual Timeline</strong> : <a href="/timeline">Visual Timeline</a>}</li>
       </ul>
     </nav>
 

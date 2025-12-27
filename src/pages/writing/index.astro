@@ -3,25 +3,17 @@ import Layout from '../../layouts/Layout.astro';
 import SorollaGraphic from '../../components/SorollaGraphic.astro';
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects');
+const posts = await getCollection('writing');
 
-// Group projects by year
-const projectsByYear = projects.reduce((acc, project) => {
-  const year = project.data.year || 'Other';
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(project);
-  return acc;
-}, {} as Record<string | number, typeof projects>);
-
-// Sort years descending
-const sortedYears = Object.keys(projectsByYear).sort((a, b) => {
-  if (a === 'Other') return 1;
-  if (b === 'Other') return -1;
-  return Number(b) - Number(a);
+// Sort by date, newest first
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return dateB - dateA;
 });
 ---
 
-<Layout title="Projects | Tim Farrelly">
+<Layout title="Writing | Tim Farrelly">
 
   <!-- Header -->
   <header class="header-wrapper">
@@ -45,38 +37,37 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => {
     <nav class="col-menu">
       <ul>
         <li><a href="/">About</a></li>
-        <li><a href="/art">Art Gallery</a></li>
         <li><a href="/lists">Lists</a></li>
-        <li><strong>Projects</strong></li>
-        <li><a href="/notes">Notes</a></li>
+        <li><strong>Writing</strong></li>
+        <li><a href="/art">Art Gallery</a></li>
+        <li><a href="/timeline">Visual Timeline</a></li>
       </ul>
     </nav>
 
     <!-- Content (centered in column 2) -->
     <article class="col-content">
       <div class="content-inner">
-        <p><a href="https://fov.ie/" target="_blank">Field of Vision</a> highlights: real time Aussie Rules Football ball detection at 80% accuracy (world's best to our knowledge), shipped production and certification quality firmware for our devices, built many internal web apps.</p>
+        <p>Longer thoughts and essays.</p>
 
-        {sortedYears.map((year) => (
-          <>
-            <h2>{year}</h2>
-            <ol class="project-list">
-              {projectsByYear[year].map((project) => (
-                <li>
-                  <a href={project.data.url || `/projects/${project.slug}`} target={project.data.url ? "_blank" : undefined} class="project-title">{project.data.title}</a>
-                  {project.data.description && (
-                    <ul>
-                      <li>{project.data.description}</li>
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </>
-        ))}
+        <ul class="post-links">
+          {sortedPosts.map((post) => (
+            <li>
+              <a href={`/writing/${post.slug}`}>{post.data.title}</a>
+              {post.data.date && (
+                <span class="date">
+                  {new Date(post.data.date).toLocaleDateString('en-IE', {
+                    year: 'numeric',
+                    month: 'short'
+                  })}
+                </span>
+              )}
+              {post.data.description && <p class="description">{post.data.description}</p>}
+            </li>
+          ))}
+        </ul>
 
-        {projects.length === 0 && (
-          <p><em>No projects yet.</em></p>
+        {posts.length === 0 && (
+          <p><em>No posts yet.</em></p>
         )}
       </div>
     </article>
@@ -257,32 +248,30 @@ const sortedYears = Object.keys(projectsByYear).sort((a, b) => {
     margin: 0 0 1.25rem;
   }
 
-  .content-inner h2 {
-    font-size: 1.5rem;
-    margin: 2rem 0 1rem;
+  .post-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-links li {
+    margin-bottom: 1.25rem;
+  }
+
+  .post-links a {
     font-weight: 600;
   }
 
-  .project-list {
-    margin: 0 0 1.25rem;
-    padding-left: 1.25rem;
+  .date {
+    color: rgba(14, 32, 47, 0.5);
+    font-size: 0.9em;
+    margin-left: 0.5rem;
   }
 
-  .project-list > li {
-    margin-bottom: 1rem;
-  }
-
-  .project-title {
-    font-style: italic;
-  }
-
-  .project-list ul {
+  .description {
+    color: rgba(14, 32, 47, 0.7);
+    font-size: 0.95em;
     margin: 0.25rem 0 0;
-    padding-left: 1.25rem;
-  }
-
-  .project-list ul li {
-    margin-bottom: 0.25rem;
   }
 
   /* Artwork - column 3, centered */
