@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
 const isLists = currentPath.startsWith('/lists');
 const isWriting = currentPath.startsWith('/writing');
 const isArt = currentPath.startsWith('/art');
-const isTimeline = currentPath.startsWith('/timeline');
+const isPics = currentPath.startsWith('/pics');
 ---
 
 <Layout title={title}>
@@ -42,7 +42,7 @@ const isTimeline = currentPath.startsWith('/timeline');
         <li>{isLists ? <strong>Lists</strong> : <a href="/lists">Lists</a>}</li>
         <li>{isWriting ? <strong>Writing</strong> : <a href="/writing">Writing</a>}</li>
         <li>{isArt ? <strong>Art Gallery</strong> : <a href="/art">Art Gallery</a>}</li>
-        <li>{isTimeline ? <strong>Visual Timeline</strong> : <a href="/timeline">Visual Timeline</a>}</li>
+        <li>{isPics ? <strong>Pics:)</strong> : <a href="/pics">Pics:)</a>}</li>
       </ul>
     </nav>
 

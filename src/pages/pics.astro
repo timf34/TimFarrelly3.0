@@ -1,0 +1,532 @@
+---
+import Layout from '../layouts/Layout.astro';
+import picsData from '../data/pics-manifest.json';
+
+// Group posts by year
+const postsByYear: Record<number, typeof picsData> = {};
+for (const post of picsData) {
+  if (!postsByYear[post.year]) {
+    postsByYear[post.year] = [];
+  }
+  postsByYear[post.year].push(post);
+}
+
+// Sort years descending
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+
+// Sort posts within each year by month descending
+for (const year of years) {
+  postsByYear[year].sort((a, b) => b.month - a.month);
+}
+
+// Filter out video files for display (only show images)
+function getImages(images: string[]) {
+  return images.filter(img => !img.endsWith('.mp4'));
+}
+---
+
+<Layout title="Pics:) | Tim Farrelly">
+
+  <!-- Header -->
+  <header class="header-wrapper">
+    <div class="header">
+      <img src="/short.jpg" alt="" class="header-img" />
+      <div class="header-text">
+        <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
+        <div class="header-meta">
+          <div class="meta-block">
+            <span class="meta-value">Dublin &rarr; <span id="time">--:--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pics-container">
+
+    <!-- Menu -->
+    <nav class="col-menu">
+      <ul>
+        <li><a href="/">About</a></li>
+        <li><a href="/lists">Lists</a></li>
+        <li><a href="/writing">Writing</a></li>
+        <li><a href="/art">Art Gallery</a></li>
+        <li><strong>Pics:)</strong></li>
+      </ul>
+    </nav>
+
+    <!-- Pics Content -->
+    <div class="pics-content">
+      <p class="intro">
+        I started doing monthly photo dumps on <a href="https://www.instagram.com/tim_farrelly34/" target="_blank" rel="noopener noreferrer">Instagram</a> a while back -- just a collection of pics from each month, 
+        sometimes with a separate post if I'd seen a bunch of art that month. People seem to really like them, but 
+        honestly I think I get the most out of it myself. There's something really special about being able to scroll 
+        back and see exactly what August 2024 looked like, even if it's just a cherry-picked subsection of reality. 
+        It's become one of my favorite little practices, and I'd genuinely encourage more people to try it -- your 
+        future self will thank you for the visual time capsule! 
+      </p>
+
+      {years.map(year => (
+        <section class="year-section">
+          <h2>{year}</h2>
+
+          {postsByYear[year].map(post => (
+            <div class="month-post" data-post-id={post.id}>
+              <h3><b>{post.title}</b></h3>
+
+              <!-- Desktop Grid -->
+              <div class="image-grid">
+                {getImages(post.images).map((img, idx) => (
+                  <button class="image-btn" data-src={`/pics/${img}`} data-index={idx}>
+                    <img src={`/pics/${img}`} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+
+              <!-- Mobile Carousel -->
+              <div class="image-carousel">
+                <div class="carousel-track">
+                  {getImages(post.images).map((img, idx) => (
+                    <button class="carousel-slide" data-src={`/pics/${img}`} data-index={idx}>
+                      <img src={`/pics/${img}`} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+    <button class="modal-prev" aria-label="Previous image">&lsaquo;</button>
+    <button class="modal-next" aria-label="Next image">&rsaquo;</button>
+    <img id="modal-img" src="" alt="" />
+    <div class="modal-counter"><span id="modal-current">1</span> / <span id="modal-total">1</span></div>
+  </div>
+
+  <script>
+    // Time display
+    function updateTime() {
+      const el = document.getElementById('time');
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString('en-IE', {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Modal functionality
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+    const modalCurrent = document.getElementById('modal-current');
+    const modalTotal = document.getElementById('modal-total');
+    const closeBtn = document.querySelector('.modal-close');
+    const prevBtn = document.querySelector('.modal-prev');
+    const nextBtn = document.querySelector('.modal-next');
+
+    let currentImages: string[] = [];
+    let currentIndex = 0;
+
+    function openModal(images: string[], index: number) {
+      currentImages = images;
+      currentIndex = index;
+      updateModalImage();
+      modal?.classList.add('open');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal?.classList.remove('open');
+      modal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateModalImage() {
+      if (modalImg && currentImages[currentIndex]) {
+        modalImg.src = currentImages[currentIndex];
+      }
+      if (modalCurrent) modalCurrent.textContent = String(currentIndex + 1);
+      if (modalTotal) modalTotal.textContent = String(currentImages.length);
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      updateModalImage();
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % currentImages.length;
+      updateModalImage();
+    }
+
+    // Event listeners
+    closeBtn?.addEventListener('click', closeModal);
+    prevBtn?.addEventListener('click', prevImage);
+    nextBtn?.addEventListener('click', nextImage);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!modal?.classList.contains('open')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+    });
+
+    // Click handlers for images
+    document.querySelectorAll('.month-post').forEach(post => {
+      // Get unique images from grid buttons only (carousel has same images)
+      const gridButtons = post.querySelectorAll('.image-btn');
+      const images = Array.from(gridButtons).map(btn => btn.getAttribute('data-src') || '');
+
+      // Attach click handlers to both grid and carousel buttons
+      gridButtons.forEach((btn, idx) => {
+        btn.addEventListener('click', () => openModal(images, idx));
+      });
+
+      const carouselButtons = post.querySelectorAll('.carousel-slide');
+      carouselButtons.forEach((btn, idx) => {
+        btn.addEventListener('click', () => openModal(images, idx));
+      });
+    });
+  </script>
+</Layout>
+
+<style>
+  /* Header (same as other pages) */
+  .header-wrapper {
+    --header-width: 94%;
+    --header-radius: 16px;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 2rem 0;
+  }
+
+  .header {
+    position: relative;
+    width: var(--header-width);
+    height: 75px;
+    border-radius: 0 0 var(--header-radius) var(--header-radius);
+    overflow: hidden;
+  }
+
+  .header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .header-text {
+    position: absolute;
+    bottom: 12px;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header-tagline {
+    font-size: 1rem;
+    color: rgba(14, 32, 47, 0.8);
+  }
+
+  .header-meta {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+  }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .meta-value {
+    color: rgba(14, 32, 47, 0.6);
+  }
+
+  /* Main Layout */
+  .pics-container {
+    display: grid;
+    grid-template-columns: 10% 1fr;
+    padding-bottom: 4rem;
+  }
+
+  /* Menu */
+  .col-menu {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-menu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .col-menu a {
+    text-decoration: none;
+  }
+
+  .col-menu a:hover {
+    text-decoration: underline;
+  }
+
+  /* Pics Content */
+  .pics-content {
+    grid-column: 2;
+    padding-right: 2rem;
+    max-width: 1200px;
+  }
+
+  .intro {
+    margin: 0 0 2rem;
+    color: rgba(14, 32, 47, 0.7);
+  }
+
+  .year-section {
+    margin-bottom: 3rem;
+  }
+
+  .year-section h2 {
+    font-size: 2rem;
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(14, 32, 47, 0.1);
+  }
+
+  .month-post {
+    margin-bottom: 2.5rem;
+  }
+
+  .month-post h3 {
+    font-size: 1.25rem;
+    margin: 0 0 1rem;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* Desktop Grid */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .image-btn {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border-radius: 4px;
+  }
+
+  .image-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  .image-btn:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Mobile Carousel (hidden on desktop) */
+  .image-carousel {
+    display: none;
+  }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 10000;
+  }
+
+  .modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.5rem;
+  }
+
+  .modal-prev,
+  .modal-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .modal-prev:hover,
+  .modal-next:hover {
+    opacity: 1;
+  }
+
+  .modal-prev {
+    left: 1rem;
+  }
+
+  .modal-next {
+    right: 1rem;
+  }
+
+  .modal-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.875rem;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 900px) {
+    .header-wrapper {
+      --header-width: 95%;
+      padding: 0.5rem 0 1.5rem 0;
+    }
+
+    .header {
+      height: 80px;
+    }
+
+    .header-text {
+      left: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .pics-container {
+      display: block;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .col-menu {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .col-menu ul {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pics-content {
+      padding-right: 0;
+    }
+
+    /* Hide grid on mobile */
+    .image-grid {
+      display: none;
+    }
+
+    /* Show carousel on mobile */
+    .image-carousel {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .image-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .carousel-slide {
+      flex: 0 0 auto;
+      width: 75vw;
+      max-width: 300px;
+      aspect-ratio: 1;
+      scroll-snap-align: start;
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-prev,
+    .modal-next {
+      font-size: 2rem;
+      padding: 0.5rem;
+    }
+
+    .modal-prev {
+      left: 0.5rem;
+    }
+
+    .modal-next {
+      right: 0.5rem;
+    }
+  }
+</style>
