@@ -14,14 +14,13 @@
 
 import gentleWaves from './gentle-waves.js';
 import scrollingVerticalBars from './scrolling-vertical-bars.js';
+import tetheredFlow from './tethered-flow.js';
 
 // Register all artworks here
 export const artworks = [
   gentleWaves,
   scrollingVerticalBars,
-  // Add more here:
-  // import myArtwork from './my-artwork.js';
-  // myArtwork,
+  tetheredFlow,
 ];
 
 // Get a random artwork
