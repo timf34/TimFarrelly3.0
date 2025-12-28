@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import MobileNav from '../components/MobileNav.astro';
 import picsData from '../data/pics-manifest.json';
 
 // Group posts by year
@@ -42,6 +43,9 @@ function getImages(images: string[]) {
     </div>
   </header>
 
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage="pics" />
+
   <!-- Main Content -->
   <main class="pics-container">
 
@@ -59,12 +63,12 @@ function getImages(images: string[]) {
     <!-- Pics Content -->
     <div class="pics-content">
       <p class="intro">
-        I started doing monthly photo dumps on <a href="https://www.instagram.com/tim_farrelly34/" target="_blank" rel="noopener noreferrer">Instagram</a> a while back -- just a collection of pics from each month, 
-        sometimes with a separate post if I'd seen a bunch of art that month. People seem to really like them, but 
-        honestly I think I get the most out of it myself. There's something really special about being able to scroll 
-        back and see exactly what August 2024 looked like, even if it's just a cherry-picked subsection of reality. 
-        It's become one of my favorite little practices, and I'd genuinely encourage more people to try it -- your 
-        future self will thank you for the visual time capsule! 
+          I started doing monthly photo dumps on <a href="https://www.instagram.com/tim_farrelly34/" target="_blank" rel="noopener noreferrer">Instagram</a> a while back -- just a collection of pics from each month, 
+          sometimes with a separate post if I'd seen a bunch of art that month. People seem to really like them, but 
+          honestly I think I get the most out of it myself. There's something really special about being able to scroll 
+          back and see exactly what August 2024 looked like, even if it's just a cherry-picked subsection of reality. 
+          It's become one of my favorite little practices, and I'd really encourage more people to try it -- your 
+          future self will thank you for the visual time capsule! 
       </p>
 
       {years.map(year => (
@@ -300,7 +304,7 @@ function getImages(images: string[]) {
 
   .intro {
     margin: 0 0 2rem;
-    color: rgba(14, 32, 47, 0.7);
+    color: rgba(0, 0, 0, 0.9);
   }
 
   .year-section {
@@ -457,14 +461,7 @@ function getImages(images: string[]) {
     }
 
     .col-menu {
-      justify-content: flex-start;
-      margin-bottom: 2rem;
-    }
-
-    .col-menu ul {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: none;
     }
 
     .pics-content {

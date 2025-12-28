@@ -1,0 +1,119 @@
+---
+interface Props {
+  currentPage: 'about' | 'lists' | 'writing' | 'art' | 'pics';
+}
+
+const { currentPage } = Astro.props;
+
+const links = [
+  { href: '/', key: 'about', label: 'About' },
+  { href: '/lists', key: 'lists', label: 'Lists' },
+  { href: '/writing', key: 'writing', label: 'Writing' },
+  { href: '/art', key: 'art', label: 'Art Gallery' },
+  { href: '/pics', key: 'pics', label: 'Pics:)' },
+];
+---
+
+<nav class="mobile-nav">
+  <button
+    class="hamburger"
+    id="hamburgerToggle"
+    aria-label="Toggle navigation"
+    aria-expanded="false"
+  >
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <div class="mobile-nav-links" id="mobileNavLinks">
+    {links.map(link => (
+      link.key === currentPage
+        ? <strong>{link.label}</strong>
+        : <a href={link.href}>{link.label}</a>
+    ))}
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('hamburgerToggle');
+  const links = document.getElementById('mobileNavLinks');
+
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const isOpen = links.classList.toggle('show');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+</script>
+
+<style is:global>
+  /* Nav container - always rendered */
+  .mobile-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #F4F4F0;
+    padding: 0.5rem 1.5rem;
+  }
+
+  /* Hamburger - hidden on desktop, shown on mobile */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #0e202f;
+  }
+
+  /* Links - hidden by default, flows in document when shown */
+  .mobile-nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0 0.75rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(14, 32, 47, 0.15);
+  }
+
+  .mobile-nav-links.show {
+    display: flex;
+  }
+
+  .mobile-nav-links a {
+    text-decoration: none;
+  }
+
+  .mobile-nav-links a:hover {
+    text-decoration: underline;
+  }
+
+  /* Desktop - hide entire mobile nav */
+  @media (min-width: 901px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+
+  /* Mobile - show hamburger and adjust header spacing */
+  @media (max-width: 900px) {
+    .hamburger {
+      display: flex;
+    }
+
+    /* Reduce header bottom padding for balanced spacing */
+    .header-wrapper {
+      padding-bottom: 0.5rem !important;
+    }
+  }
+</style>

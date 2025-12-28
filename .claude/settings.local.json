@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(python scripts/process_instagram_pics.py:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(dir:*)",
+      "Bash(cat:*)",
+      "Bash(npm run dev:*)"
     ]
   }
 }

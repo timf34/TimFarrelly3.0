@@ -1,0 +1,514 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MobileNav from '../components/MobileNav.astro';
+
+// Paintings data
+const paintings = [
+  { src: "https://i.imgur.com/F2HciuD.jpeg", title: "Two Men Contemplating the Moon", artist: "Caspar David Friedrich" },
+  { src: "https://i.imgur.com/Zm1iPbr.jpeg", title: "Carnation, Lily, Lily Rose", artist: "John Singer Sargent" },
+  { src: "https://i.imgur.com/sDvV5Pf.jpeg", title: "Achill Horses", artist: "Mainie Jellett" },
+  { src: "https://i.imgur.com/n1sUS1d.jpeg", title: "Vertumnus", artist: "Giuseppe Arcimboldo" },
+  { src: "https://i.imgur.com/UGjKde6.jpeg", title: "The Course of Empire: Destruction", artist: "Thomas Cole" },
+  { src: "https://i.imgur.com/JLxtiA2.png", title: "Winter Landscape", artist: "Caspar David Friedrich" },
+  { src: "https://i.imgur.com/debPP8m.jpeg", title: "Singing Horseman", artist: "J.B. Yeats" },
+  { src: "https://i.imgur.com/rrOWjv9.jpeg", title: "Hope", artist: "George Frederic Watts" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/RokebyVenus.jpg/2880px-RokebyVenus.jpg", title: "Rokeby Venus", artist: "Velazquez" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Caspar_David_Friedrich_-_On_the_Sailing_Boat_-_WGA8255.jpg", title: "On Board a Sailing Ship", artist: "Caspar David Friedrich" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/600px-Nighthawks_by_Edward_Hopper_1942.jpg", title: "Nighthawks", artist: "Edward Hopper" },
+  { src: "https://i.imgur.com/7vq6LtF.jpeg", title: "Springtime", artist: "Claude Monet" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Caspar_David_Friedrich_-_Tageszeitenzyklus%2C_Der_Morgen_%281821-22%29.jpg", title: "The Morning", artist: "Caspar David Friedrich" },
+  { src: "https://i.imgur.com/8RyfsHF.jpeg", title: "The Isle of the Dead", artist: "Arnold Bocklin" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Caspar_David_Friedrich_-_Der_M%C3%B6nch_am_Meer_-_Google_Art_Project.jpg/2560px-Caspar_David_Friedrich_-_Der_M%C3%B6nch_am_Meer_-_Google_Art_Project.jpg", title: "The Monk by the Sea", artist: "Caspar David Friedrich" },
+  { src: "https://i.imgur.com/A1kYYtU.jpeg", title: "Self Portrait with Death Playing The Fiddle", artist: "Arnold Bocklin" },
+  { src: "https://i.imgur.com/v1Ele4Q.jpeg", title: "One: No. 31", artist: "Jackson Pollock" },
+  { src: "https://i.imgur.com/XvTIRHH.jpeg", title: "Ulysses Deriding Polyphemus", artist: "JMW Turner" },
+  { src: "https://i.imgur.com/HFDk7vc.jpeg", title: "Ulysses and the Sirens", artist: "John William Waterhouse" },
+  { src: "https://i.imgur.com/SLHJIg0.png", title: "Nude Binding Her Hair", artist: "Koide Narashige" },
+  { src: "https://i.imgur.com/8ikWlhg.jpeg", title: "Overflow", artist: "Andrew Wyeth" },
+  { src: "https://i.imgur.com/XRtSPab.jpeg", title: "The Mountain Mists", artist: "Herbert James Draper" },
+  { src: "https://i.imgur.com/eJmeTux.jpeg", title: "Pieta", artist: "Mainie Jellett" },
+  { src: "https://i.imgur.com/bhRicxw.jpeg", title: "New York Movie", artist: "Edward Hopper" },
+  { src: "https://i.imgur.com/jf59cTx.jpeg", title: "The Lovers", artist: "Rene Magritte" },
+  { src: "https://i.imgur.com/RkwmYEQ.jpeg", title: "The Fountain of Inspiration", artist: "Constant Montald" },
+  { src: "https://i.imgur.com/pl7Iosn.jpeg", title: "Nude (1916)", artist: "Amedeo Modigliani" },
+  { src: "https://i.imgur.com/qR4oPAG.jpeg", title: "Satan's Treasures", artist: "Jean Delville" },
+  { src: "https://i.imgur.com/fONsk2u.jpeg", title: "Engloutissement", artist: "André Masson" },
+  { src: "https://i.imgur.com/YtcRU9f.jpeg", title: "October", artist: "Jules Bastien-Lepage" },
+  { src: "https://i.imgur.com/gnc7Roi.jpeg", title: "An Experiment on a Bird in the Air Pump", artist: "Joseph Wright" },
+  { src: "https://i.imgur.com/TAWkuh6.jpeg", title: "Sadko", artist: "Ilya Repin" },
+  { src: "https://i.imgur.com/QGcGN3D.jpeg", title: "A Covent Garden, Brittany", artist: "William Leech" },
+  { src: "https://i.imgur.com/ScoHT7Y.jpeg", title: "Pandora", artist: "Odilon Redon" },
+  { src: "https://i.imgur.com/bCryV1i.jpeg", title: "Morning", artist: "Ilya Glazunov" },
+  { src: "https://i.imgur.com/Pe92brF.jpeg", title: "Pygmalion and Galatea", artist: "Jean-Leon Gerome" },
+  { src: "https://i.imgur.com/U9oQNrV.jpeg", title: "The Voyage of Life: Childhood", artist: "Thomas Cole" },
+  { src: "https://i.imgur.com/d3AljHv.jpeg", title: "The Voyage of Life: Youth", artist: "Thomas Cole" },
+  { src: "https://i.imgur.com/MvjMBQg.jpeg", title: "The Voyage of Life: Manhood", artist: "Thomas Cole" },
+  { src: "https://i.imgur.com/ZynEcJo.jpeg", title: "The Voyage of Life: Old Age", artist: "Thomas Cole" },
+  { src: "https://i.imgur.com/lttcCru.jpeg", title: "Bal Tabarin", artist: "Jan Sluijters" },
+  { src: "https://i.imgur.com/KscSzw7.jpeg", title: "Le Ballet", artist: "Gaston La Touche" },
+  { src: "https://i.imgur.com/GdzHYPQ.jpeg", title: "'Mr Gilhooley by Liam O'Flaherty' for the Geneva Window", artist: "Harry Clarke" },
+  { src: "https://i.imgur.com/GbE6eOv.jpg", title: "Opus 217. Against the Enamel of a Background Rhythmic with Beats and Angles, Tones, and Tints, Portrait of M. Félix Fénéon in 1890", artist: "Paul Signac" },
+  { src: "https://i.imgur.com/HJmVxZQ.jpeg", title: "Sunflowers from Petrol Station", artist: "Banksy" },
+  { src: "https://i.imgur.com/OeomCYN.jpeg", title: "Atem (Breath)", artist: "Gerhard Richter" },
+  { src: "https://i.imgur.com/jWmLmhG.jpeg", title: "Siesta", artist: "Pierre Bonnard" },
+  { src: "https://i.imgur.com/d0MfDyi.jpeg", title: "The Ball", artist: "Gaston La Touche" },
+  { src: "https://i.imgur.com/M1H1uVu.jpeg", title: "Susanna at her Bath", artist: "Francesco Hayez" },
+  { src: "https://i.imgur.com/uxDMuhE.jpeg", title: "The Lament for Icarus", artist: "Herbert James Draper" },
+  { src: "https://i.imgur.com/4gaeb5B.jpeg", title: "Ariadne", artist: "John Lavery" },
+  { src: "https://i.imgur.com/BlrQN2a.jpeg", title: "Graceful Ascent", artist: "Vasily Kandinsky" },
+  { src: "https://i.imgur.com/h7icPfS.jpeg", title: "Of Lilies and Remains", artist: "Richard Mosse" },
+  { src: "https://i.imgur.com/VCU3BEs.jpeg", title: "In Morocco", artist: "John Lavery" },
+  { src: "https://i.imgur.com/qB2bCHD.jpeg", title: "Catherine and Midnight", artist: "Takako Yamaguchi" },
+  { src: "https://i.imgur.com/P1YLKer.jpeg", title: "The Chess Game", artist: "John Singer Sargent" },
+  { src: "https://i.imgur.com/DbWB14W.jpeg", title: "The Truth", artist: "Jules Lefebvre" },
+  { src: "https://i.imgur.com/CUMSYa2.jpeg", title: "Bernard and Roger, at the château de Vineuil at Bourré", artist: "Louis-Maurice Boutet De Monvel" },
+  { src: "https://i.imgur.com/ogY8C0G.jpeg", title: "The Knight of the Flowers", artist: "Georges Rochegrosse" },
+  { src: "https://i.imgur.com/0TTXz8l.jpeg", title: "Anguish", artist: "August Friedrich Schenck" },
+];
+
+// Helper to get thumbnail URL for imgur images
+function getThumbnail(src: string): string {
+  if (src.includes("imgur.com")) {
+    return src.replace(/\.(jpeg|jpg|png)$/i, "h.$1");
+  }
+  return src;
+}
+---
+
+<Layout title="Art Gallery | Tim Farrelly">
+
+  <!-- Header -->
+  <header class="header-wrapper">
+    <div class="header">
+      <img src="/short.jpg" alt="" class="header-img" />
+      <div class="header-text">
+        <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
+        <div class="header-meta">
+          <div class="meta-block">
+            <span class="meta-value">Dublin → <span id="time">--:--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage="art" />
+
+  <!-- Main Content -->
+  <main class="grid">
+    <!-- Menu -->
+    <nav class="col-menu">
+      <ul>
+        <li><a href="/">About</a></li>
+        <li><a href="/lists">Lists</a></li>
+        <li><a href="/writing">Writing</a></li>
+        <li><strong>Art Gallery</strong></li>
+        <li><a href="/pics">Pics:)</a></li>
+      </ul>
+    </nav>
+
+    <!-- Gallery -->
+    <div class="gallery-container">
+      {paintings.map((painting, index) => (
+        <figure data-index={index}>
+          <img
+            src={getThumbnail(painting.src)}
+            data-original={painting.src}
+            alt={`${painting.title} by ${painting.artist}`}
+            loading="lazy"
+          />
+          <figcaption>
+            <span class="title">{painting.title}</span>
+            <span class="artist">by {painting.artist}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <button class="nav-btn prev-btn" aria-label="Previous">&#10094;</button>
+      <img id="modal-image" src="" alt="" />
+      <button class="nav-btn next-btn" aria-label="Next">&#10095;</button>
+      <div class="modal-caption">
+        <span id="modal-title"></span>
+        <span id="modal-artist"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Time display
+    function updateTime() {
+      const el = document.getElementById('time');
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString('en-IE', {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      }
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+
+    // Modal functionality
+    const modal = document.getElementById('modal') as HTMLDivElement;
+    const modalImage = document.getElementById('modal-image') as HTMLImageElement;
+    const modalTitle = document.getElementById('modal-title') as HTMLSpanElement;
+    const modalArtist = document.getElementById('modal-artist') as HTMLSpanElement;
+    const closeBtn = document.querySelector('.close-btn') as HTMLButtonElement;
+    const prevBtn = document.querySelector('.prev-btn') as HTMLButtonElement;
+    const nextBtn = document.querySelector('.next-btn') as HTMLButtonElement;
+    const figures = document.querySelectorAll('figure');
+
+    let currentIndex = 0;
+
+    function openModal(index: number) {
+      currentIndex = index;
+      const figure = figures[index];
+      const img = figure.querySelector('img') as HTMLImageElement;
+      const title = figure.querySelector('.title')?.textContent || '';
+      const artist = figure.querySelector('.artist')?.textContent || '';
+
+      modalImage.src = img.dataset.original || img.src;
+      modalTitle.textContent = title;
+      modalArtist.textContent = artist;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function navigate(direction: number) {
+      currentIndex = (currentIndex + direction + figures.length) % figures.length;
+      openModal(currentIndex);
+    }
+
+    // Event listeners
+    figures.forEach((figure, index) => {
+      figure.addEventListener('click', () => openModal(index));
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    prevBtn.addEventListener('click', () => navigate(-1));
+    nextBtn.addEventListener('click', () => navigate(1));
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (modal.style.display !== 'flex') return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    });
+  </script>
+</Layout>
+
+<style>
+  /* ===== HEADER ===== */
+  .header-wrapper {
+    --header-width: 94%;
+    --header-radius: 16px;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 2rem 0;
+  }
+
+  .header {
+    position: relative;
+    width: var(--header-width);
+    height: 75px;
+    border-radius: 0 0 var(--header-radius) var(--header-radius);
+    overflow: hidden;
+  }
+
+  .header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .header-text {
+    position: absolute;
+    bottom: 12px;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header-tagline {
+    font-size: 1rem;
+    color: rgba(14, 32, 47, 0.8);
+  }
+
+  .header-meta {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.75rem;
+  }
+
+  .meta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+  }
+
+  .meta-value {
+    color: rgba(14, 32, 47, 0.6);
+  }
+
+  /* ===== GRID ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: 10% 1fr;
+    padding-bottom: 4rem;
+  }
+
+  /* Menu - column 1, centered */
+  .col-menu {
+    grid-column: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .col-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-menu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .col-menu a {
+    text-decoration: none;
+  }
+
+  .col-menu a:hover {
+    text-decoration: underline;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery-container {
+    grid-column: 2;
+    column-count: 4;
+    column-gap: 12px;
+    padding-right: 2rem;
+  }
+
+  figure {
+    margin: 0 0 4px 0;
+    break-inside: avoid;
+    cursor: pointer;
+  }
+
+  figure img {
+    width: 100%;
+    display: block;
+    transition: all 0.3s ease;
+  }
+
+  figure:hover img {
+    opacity: 0.85;
+    transform: scale(1.01);
+    box-shadow: 0 0 12px rgba(180, 100, 180, 0.5);
+  }
+
+  figcaption {
+    padding: 0.15rem 0 0.1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .title {
+    font-size: 0.85rem;
+    color: #0e202f;
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  .artist {
+    font-size: 0.75rem;
+    color: rgba(14, 32, 47, 0.6);
+    margin-top: -2px;
+  }
+
+  /* ===== MODAL ===== */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 95vw;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #modal-image {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    animation: modalFadeIn 0.3s ease;
+  }
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .modal-caption {
+    margin-top: 1rem;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  #modal-title {
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+
+  #modal-artist {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .close-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    z-index: 1001;
+  }
+
+  .close-btn:hover {
+    opacity: 1;
+  }
+
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem 0.75rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s;
+    z-index: 1001;
+  }
+
+  .nav-btn:hover {
+    opacity: 1;
+    background: rgba(180, 100, 180, 0.3);
+  }
+
+  .prev-btn {
+    left: 1rem;
+  }
+
+  .next-btn {
+    right: 1rem;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (min-width: 1601px) {
+    .gallery-container {
+      column-count: 5;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .gallery-container {
+      column-count: 3;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .header-wrapper {
+      --header-width: 95%;
+      padding: 0.5rem 0 1rem 0;
+    }
+
+    .header {
+      height: 80px;
+    }
+
+    .header-text {
+      left: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: block;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .col-menu {
+      display: none;
+    }
+
+    .gallery-container {
+      column-count: 2;
+      padding: 0;
+    }
+
+    .nav-btn {
+      font-size: 1.5rem;
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .gallery-container {
+      column-count: 2;
+      column-gap: 8px;
+    }
+
+    figure {
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 0.75rem;
+    }
+
+    .artist {
+      font-size: 0.65rem;
+    }
+  }
+</style>
