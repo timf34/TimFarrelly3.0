@@ -5,6 +5,8 @@ const lists = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    order: z.number().optional(),      // Lower numbers appear first
+    published: z.boolean().default(true), // Set to false to hide from site
   }),
 });
 

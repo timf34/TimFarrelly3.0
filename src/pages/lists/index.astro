@@ -3,7 +3,22 @@ import Layout from '../../layouts/Layout.astro';
 import SorollaGraphic from '../../components/SorollaGraphic.astro';
 import { getCollection } from 'astro:content';
 
-const lists = await getCollection('lists');
+const allLists = await getCollection('lists');
+
+// Filter to only published lists, then sort by order (if present) then title
+const lists = allLists
+  .filter(list => list.data.published !== false)
+  .sort((a, b) => {
+    // If both have order, sort by order
+    if (a.data.order !== undefined && b.data.order !== undefined) {
+      return a.data.order - b.data.order;
+    }
+    // If only one has order, it comes first
+    if (a.data.order !== undefined) return -1;
+    if (b.data.order !== undefined) return 1;
+    // Otherwise sort alphabetically by title
+    return a.data.title.localeCompare(b.data.title);
+  });
 ---
 
 <Layout title="Lists | Tim Farrelly">

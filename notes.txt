@@ -1,0 +1,16 @@
+Main thing now is the Art Gallery page, and then to bring in more of my Lists and just do some organising around my "Writing" page, I'll want to work in the projects into that too 
+
+
+Pics:) page: 
+- it filtered out "December, art edition" on account of the "edition" I think! Can come back to this later/ just leave Claude Code working on it. 
+- Also, mp4's are filtered out, it'd be great to include those!
+
+
+Arts page:
+- I should redo the style a little bit, it might be alright to just incorporate it almost as it is. 
+- I should come up with a simpler system for adding new images/ paintings I think. Ideally a GUI for uploading them directly to S3 so they're safe. 
+
+
+Writing page:
+- An easy thing to add here is a really long Markdown file of my notes on AI papers that I've read. "working with the garage door open" Andy Matuschak style 
+- I should have a blogroll, also with a special one for digital/art/ beautiful UIs! 
