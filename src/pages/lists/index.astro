@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SorollaGraphic from '../../components/SorollaGraphic.astro';
+import MobileNav from '../../components/MobileNav.astro';
 import { getCollection } from 'astro:content';
 
 const allLists = await getCollection('lists');
@@ -37,6 +38,9 @@ const lists = allLists
       </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage="lists" />
 
   <!-- Main Grid -->
   <main class="grid">
@@ -303,14 +307,7 @@ const lists = allLists
     }
 
     .col-menu {
-      justify-content: flex-start;
-      margin-bottom: 2rem;
-    }
-
-    .col-menu ul {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: none;
     }
 
     .col-content {

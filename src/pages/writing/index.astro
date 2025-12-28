@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SorollaGraphic from '../../components/SorollaGraphic.astro';
+import MobileNav from '../../components/MobileNav.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('writing');
@@ -29,6 +30,9 @@ const sortedPosts = posts.sort((a, b) => {
       </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage="writing" />
 
   <!-- Main Grid -->
   <main class="grid">
@@ -315,14 +319,7 @@ const sortedPosts = posts.sort((a, b) => {
     }
 
     .col-menu {
-      justify-content: flex-start;
-      margin-bottom: 2rem;
-    }
-
-    .col-menu ul {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: none;
     }
 
     .col-content {

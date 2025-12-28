@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import MobileNav from '../components/MobileNav.astro';
 import picsData from '../data/pics-manifest.json';
 
 // Group posts by year
@@ -41,6 +42,9 @@ function getImages(images: string[]) {
       </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage="pics" />
 
   <!-- Main Content -->
   <main class="pics-container">
@@ -457,14 +461,7 @@ function getImages(images: string[]) {
     }
 
     .col-menu {
-      justify-content: flex-start;
-      margin-bottom: 2rem;
-    }
-
-    .col-menu ul {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: none;
     }
 
     .pics-content {

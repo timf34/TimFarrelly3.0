@@ -1,5 +1,6 @@
 ---
 import Layout from './Layout.astro';
+import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
   title: string;
@@ -13,6 +14,14 @@ const isLists = currentPath.startsWith('/lists');
 const isWriting = currentPath.startsWith('/writing');
 const isArt = currentPath.startsWith('/art');
 const isPics = currentPath.startsWith('/pics');
+
+// Determine current page for mobile nav
+type PageKey = 'about' | 'lists' | 'writing' | 'art' | 'pics';
+let currentPage: PageKey = 'about';
+if (isLists) currentPage = 'lists';
+else if (isWriting) currentPage = 'writing';
+else if (isArt) currentPage = 'art';
+else if (isPics) currentPage = 'pics';
 ---
 
 <Layout title={title}>
@@ -31,6 +40,9 @@ const isPics = currentPath.startsWith('/pics');
       </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation -->
+  <MobileNav currentPage={currentPage} />
 
   <!-- Main Grid -->
   <main class="grid">
@@ -276,16 +288,7 @@ const isPics = currentPath.startsWith('/pics');
     }
 
     .col-menu {
-      position: static;
-      width: 100%;
-      justify-content: flex-start;
-      margin-bottom: 2rem;
-    }
-
-    .col-menu ul {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: none;
     }
 
     .col-content {
