@@ -1,6 +1,5 @@
 ---
 title: "We need more words for things"
-description: "Words from other languages that capture things English can't"
 order: 2
 ---
 

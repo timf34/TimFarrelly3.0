@@ -1,6 +1,5 @@
 ---
 title: "Museums & Exhibitions"
-description: "Art museums and exhibitions I've visited"
 ---
 
 *This is a running list of major museums, galleries, and their exhibitions, I've visited. An asterisk (\*) marks the museums or exhibitions that really blew me away.*

@@ -1,6 +1,5 @@
 ---
 title: "21st Century Movies"
-description: "Favorite movies from this century"
 ---
 
 *Movies with a \* are extra special.*
