@@ -27,8 +27,21 @@ For those with the eyes to see</span>
     animationDuration: 4200,
   };
 
-  let animationProgress = 0;
-  let hasStartedAnimating = false;
+  // Use navigation type to detect hard refresh vs normal navigation
+  const isHardRefresh = performance.getEntriesByType('navigation')[0] &&
+    (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming).type === 'reload';
+
+  const ANIMATION_SHOWN_KEY = 'sorolla-animation-shown';
+
+  // Clear cache on hard refresh
+  if (isHardRefresh) {
+    sessionStorage.removeItem(ANIMATION_SHOWN_KEY);
+  }
+
+  const animationAlreadyShown = sessionStorage.getItem(ANIMATION_SHOWN_KEY) === 'true';
+
+  let animationProgress = animationAlreadyShown ? 1 : 0;
+  let hasStartedAnimating = animationAlreadyShown;
   let animationStartTime = 0;
 
   function easeOutCubic(t: number): number {
@@ -130,6 +143,9 @@ For those with the eyes to see</span>
     
     if (animationProgress < 1) {
       requestAnimationFrame(animate);
+    } else {
+      // Mark animation as complete so it doesn't replay on other pages
+      sessionStorage.setItem(ANIMATION_SHOWN_KEY, 'true');
     }
   }
 
@@ -146,15 +162,19 @@ For those with the eyes to see</span>
   }
 
   function init() {
-    draw(0);
-    
+    // If animation was already shown, draw the completed state immediately
+    draw(animationProgress);
+
     window.addEventListener('scroll', checkVisibility, { passive: true });
-    
+
     window.addEventListener('resize', () => {
       draw(animationProgress);
     });
-    
-    checkVisibility();
+
+    // Only check visibility to start animation if it hasn't been shown yet
+    if (!animationAlreadyShown) {
+      checkVisibility();
+    }
   }
 
   img.onload = init;
