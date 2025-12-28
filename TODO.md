@@ -1,1 +1,2 @@
 - [] Make better abstractions for the artworks, should have global variables for things like the background colour which I think should be constant and abstracted away unless I explicitly override it within an art work function
+- [] Make our CSS global rather than in each art.astro, index.astro, etc. especially for stuff like "header-text"

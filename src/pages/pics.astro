@@ -235,11 +235,18 @@ function getImages(images: string[]) {
   .header-text {
     position: absolute;
     bottom: 12px;
-    left: 2rem;
-    right: 2rem;
+    left: 1rem;
+    right: 1rem;
+    font-size: 0.9rem;
+    flex-direction: column;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+
+  .header-meta {
+      align-self: flex-start;
   }
 
   .header-tagline {
