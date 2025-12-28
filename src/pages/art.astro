@@ -166,6 +166,27 @@ function getThumbnail(src: string): string {
 
     let currentIndex = 0;
 
+    // Easter egg: Isle of the Dead audio
+    const isleOfTheDeadIndex = 0; // First painting in the array
+    let isleAudio: HTMLAudioElement | null = null;
+
+    function playIsleOfTheDeadMusic() {
+      if (!isleAudio) {
+        isleAudio = new Audio('/audio/isle_of_the_dead_96k.mp3');
+        isleAudio.loop = true;
+      }
+      isleAudio.play().catch(() => {
+        // Autoplay may be blocked by browser, that's ok
+      });
+    }
+
+    function stopIsleOfTheDeadMusic() {
+      if (isleAudio) {
+        isleAudio.pause();
+        isleAudio.currentTime = 0;
+      }
+    }
+
     function openModal(index: number) {
       currentIndex = index;
       const figure = figures[index];
@@ -178,11 +199,19 @@ function getThumbnail(src: string): string {
       modalArtist.textContent = artist;
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+
+      // Easter egg: play music for Isle of the Dead
+      if (index === isleOfTheDeadIndex) {
+        playIsleOfTheDeadMusic();
+      } else {
+        stopIsleOfTheDeadMusic();
+      }
     }
 
     function closeModal() {
       modal.style.display = 'none';
       document.body.style.overflow = '';
+      stopIsleOfTheDeadMusic();
     }
 
     function navigate(direction: number) {
