@@ -29,8 +29,8 @@ pnpm-debug.log*
 temp/
 
 # Certain lists 
-src\content\lists\one-hundred-list.md
-src\content\lists\irish-art-galleries.md
-src\content\lists\short-stories.md
-src\content\lists\hot-takes.md
-src\content\lists\trinity-bucket-list.md
+src/content/lists/one-hundred-list.md
+src/content/lists/irish-art-galleries.md
+src/content/lists/short-stories.md
+src/content/lists/hot-takes.md
+src/content/lists/trinity-bucket-list.md
