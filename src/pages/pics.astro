@@ -58,7 +58,14 @@ function getImages(images: string[]) {
 
     <!-- Pics Content -->
     <div class="pics-content">
-      <p class="intro">A visual timeline of my life, one month at a time.</p>
+      <p class="intro">
+        I started doing monthly photo dumps on <a href="https://www.instagram.com/tim_farrelly34/" target="_blank" rel="noopener noreferrer">Instagram</a> a while back -- just a collection of pics from each month, 
+        sometimes with a separate post if I'd seen a bunch of art that month. People seem to really like them, but 
+        honestly I think I get the most out of it myself. There's something really special about being able to scroll 
+        back and see exactly what August 2024 looked like, even if it's just a cherry-picked subsection of reality. 
+        It's become one of my favorite little practices, and I'd genuinely encourage more people to try it -- your 
+        future self will thank you for the visual time capsule! 
+      </p>
 
       {years.map(year => (
         <section class="year-section">
@@ -179,10 +186,17 @@ function getImages(images: string[]) {
 
     // Click handlers for images
     document.querySelectorAll('.month-post').forEach(post => {
-      const buttons = post.querySelectorAll('.image-btn, .carousel-slide');
-      const images = Array.from(buttons).map(btn => btn.getAttribute('data-src') || '');
+      // Get unique images from grid buttons only (carousel has same images)
+      const gridButtons = post.querySelectorAll('.image-btn');
+      const images = Array.from(gridButtons).map(btn => btn.getAttribute('data-src') || '');
 
-      buttons.forEach((btn, idx) => {
+      // Attach click handlers to both grid and carousel buttons
+      gridButtons.forEach((btn, idx) => {
+        btn.addEventListener('click', () => openModal(images, idx));
+      });
+
+      const carouselButtons = post.querySelectorAll('.carousel-slide');
+      carouselButtons.forEach((btn, idx) => {
         btn.addEventListener('click', () => openModal(images, idx));
       });
     });
