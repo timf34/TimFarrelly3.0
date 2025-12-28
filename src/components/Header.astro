@@ -1,0 +1,30 @@
+---
+// Shared Header component
+---
+
+<header class="header-wrapper">
+  <div class="header">
+    <img src="/short.jpg" alt="" class="header-img" />
+    <div class="header-text">
+      <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
+      <div class="header-meta">
+        <div class="meta-block">
+          <span class="meta-value">Dublin → <span id="time">--:--</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function updateTime() {
+    const el = document.getElementById('time');
+    if (el) {
+      el.textContent = new Date().toLocaleTimeString('en-IE', {
+        hour: '2-digit', minute: '2-digit', hour12: false
+      });
+    }
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+</script>

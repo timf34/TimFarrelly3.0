@@ -1,25 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
 import SorollaGraphic from '../components/SorollaGraphic.astro';
 import MobileNav from '../components/MobileNav.astro';
 ---
 
 <Layout title="Tim Farrelly">
 
-  <!-- Header -->
-  <header class="header-wrapper">
-    <div class="header">
-      <img src="/short.jpg" alt="" class="header-img" />
-      <div class="header-text">
-        <span class="header-tagline"><b>Tim Farrelly, Engineer, Founder</b></span>
-        <div class="header-meta">
-          <div class="meta-block">
-            <span class="meta-value">Dublin → <span id="time">--:--</span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+  <Header />
 
   <!-- Mobile Navigation -->
   <MobileNav currentPage="about" />
@@ -90,18 +78,6 @@ import MobileNav from '../components/MobileNav.astro';
   <SorollaGraphic />
 
   <script>
-    // Time display
-    function updateTime() {
-      const el = document.getElementById('time');
-      if (el) {
-        el.textContent = new Date().toLocaleTimeString('en-IE', {
-          hour: '2-digit', minute: '2-digit', hour12: false
-        });
-      }
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
-
     // Artwork
     import { getRandomArtwork } from '../artworks/index.js';
     
@@ -150,67 +126,6 @@ import MobileNav from '../components/MobileNav.astro';
 </Layout>
 
 <style>
-  /* ===== HEADER ===== */
-  /* Adjust --header-width to change banner width (e.g., 90%, 80%, 100%) */
-  .header-wrapper {
-    --header-width: 94%;
-    --header-radius: 16px;
-    
-    display: flex;
-    justify-content: center;
-    padding: 0 0 2rem 0;
-  }
-
-  .header {
-    position: relative;
-    width: var(--header-width);
-    height: 75px;
-    border-radius: 0 0 var(--header-radius) var(--header-radius);
-    overflow: hidden;
-  }
-
-  .header-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .header-text {
-    position: absolute;
-    bottom: 12px;
-    left: 2rem;
-    right: 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-
-  .header-tagline {
-    font-size: 1rem;
-    color: rgba(14, 32, 47, 0.8);
-  }
-
-  .header-meta {
-    font-family: "Roboto Mono", monospace;
-    font-size: 0.75rem;
-  }
-
-  .meta-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.15rem;
-  }
-
-  .meta-label {
-    color: rgba(14, 32, 47, 0.8);
-  }
-
-  .meta-value {
-    color: rgba(14, 32, 47, 0.6);
-  }
-
   /* ===== GRID ===== */
   .grid {
     display: grid;
@@ -289,28 +204,6 @@ import MobileNav from '../components/MobileNav.astro';
 
   /* ===== MOBILE ===== */
   @media (max-width: 900px) {
-    .header-wrapper {
-      --header-width: 95%;
-      padding: 0.5rem 0 1.5rem 0;
-    }
-
-    .header {
-      height: 80px;
-    }
-
-    .header-text {
-      left: 1rem;
-      right: 1rem;
-      font-size: 0.9rem;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.15rem;
-    }
-
-    .header-meta {
-      align-self: flex-start;
-    }
-
     .grid {
       display: block;
       padding: 0 1.5rem 3rem;
