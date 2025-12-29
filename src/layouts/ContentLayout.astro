@@ -15,6 +15,10 @@ const isWriting = currentPath.startsWith('/writing');
 const isArt = currentPath.startsWith('/art');
 const isPics = currentPath.startsWith('/pics');
 
+// Check if we're on the exact index page (not a sub-page)
+const isListsIndex = currentPath === '/lists' || currentPath === '/lists/';
+const isWritingIndex = currentPath === '/writing' || currentPath === '/writing/';
+
 // Determine current page for mobile nav
 type PageKey = 'about' | 'lists' | 'writing' | 'art' | 'pics';
 let currentPage: PageKey = 'about';
@@ -51,8 +55,8 @@ else if (isPics) currentPage = 'pics';
     <nav class="col-menu">
       <ul>
         <li><a href="/">About</a></li>
-        <li>{isLists ? <strong>Lists</strong> : <a href="/lists">Lists</a>}</li>
-        <li>{isWriting ? <strong>Writing</strong> : <a href="/writing">Writing</a>}</li>
+        <li>{isListsIndex ? <strong>Lists</strong> : isLists ? <a href="/lists"><strong>Lists</strong></a> : <a href="/lists">Lists</a>}</li>
+        <li>{isWritingIndex ? <strong>Writing</strong> : isWriting ? <a href="/writing"><strong>Writing</strong></a> : <a href="/writing">Writing</a>}</li>
         <li>{isArt ? <strong>Art Gallery</strong> : <a href="/art">Art Gallery</a>}</li>
         <li>{isPics ? <strong>Pics:)</strong> : <a href="/pics">Pics:)</a>}</li>
       </ul>
