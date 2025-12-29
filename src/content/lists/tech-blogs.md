@@ -1,6 +1,6 @@
 ---
 title: "Tech Blogs"
-published: True
+published: False
 ---
 
 - (Jay Alammar)[https://jalammar.github.io/] (and (substack)[https://jalammar.github.io/])
