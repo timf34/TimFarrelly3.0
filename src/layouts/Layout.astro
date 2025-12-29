@@ -22,6 +22,7 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <!-- Hello there! Looking for source code? 1. I got you: https://github.com/timf34/TimFarrelly3.0, 2. We might get along: timf34@gmail.com -->
     <!-- Dev Grid (press 'g' to toggle) -->
     <div class="dev-grid hidden">
       <div class="line" style="left: 10%"></div>
@@ -33,6 +34,8 @@ const { title } = Astro.props;
     <slot />
 
     <script>
+      console.log("Hello there! Looking for source code? 1. I got you: https://github.com/timf34/TimFarrelly3.0, 2. We might get along: timf34@gmail.com");
+
       document.addEventListener('keydown', (e) => {
         if (e.key === 'g') document.querySelector('.dev-grid')?.classList.toggle('hidden');
       });
