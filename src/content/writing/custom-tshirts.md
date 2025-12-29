@@ -4,8 +4,6 @@ date: 2025-12-28
 description: "More people should make their own tshirts!"
 ---
 
-# Make Your Own Shirts
-
 A couple years ago I was looking for t-shirts with interesting designs. Plain shirts in block colors are easy to find, but if you want any sort of graphics and you have particular tastes, that's a nontrivial search problem which hours of online scrolling could not solve. 
 
 So I decided to just make my own.
