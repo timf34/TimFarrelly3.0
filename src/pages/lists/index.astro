@@ -97,29 +97,54 @@ const lists = allLists
       artwork(canvas);
     }
 
-    // Center artwork vertically in viewport
+    // Center artwork vertically relative to text content
     function centerArtwork() {
       const artCol = document.querySelector('.col-art');
       const artFrame = document.querySelector('.art-frame');
+      const contentCol = document.querySelector('.col-content');
 
-      if (artCol && artFrame) {
-        const viewportHeight = window.innerHeight;
+      if (artCol && artFrame && contentCol) {
+        const contentHeight = contentCol.offsetHeight;
         const artworkHeight = artFrame.offsetHeight;
-        const artColTop = artCol.getBoundingClientRect().top + window.scrollY;
 
-        // Where we want the artwork's top to be (centered in viewport)
-        const targetTop = (viewportHeight - artworkHeight) / 2;
-
-        // Padding needed to get there from where col-art starts
-        const paddingTop = Math.max(0, targetTop - artColTop);
+        // Center artwork at the midpoint of the text content
+        const paddingTop = Math.max(0, (contentHeight - artworkHeight) / 2);
 
         artCol.style.paddingTop = `${paddingTop}px`;
       }
     }
 
+    // Ensure Sorolla painting peeks into viewport
+    function ensureSorollaPeeks() {
+      const mainGrid = document.querySelector('.grid') as HTMLElement;
+      const sorollaContainer = document.querySelector('.sorolla-container') as HTMLElement;
+
+      if (mainGrid && sorollaContainer) {
+        // Reset min-height first to get natural position
+        mainGrid.style.minHeight = '';
+
+        const viewportHeight = window.innerHeight;
+        const sorollaTop = sorollaContainer.getBoundingClientRect().top;
+        const peekAmount = 80;
+
+        const targetTop = viewportHeight - peekAmount;
+
+        if (sorollaTop < targetTop) {
+          const extraHeight = targetTop - sorollaTop;
+          mainGrid.style.minHeight = `${mainGrid.offsetHeight + extraHeight}px`;
+        }
+      }
+    }
+
     // Run after layout settles
-    requestAnimationFrame(centerArtwork);
-    window.addEventListener('resize', centerArtwork);
+    requestAnimationFrame(() => {
+      centerArtwork();
+      ensureSorollaPeeks();
+    });
+    window.addEventListener('resize', () => {
+      centerArtwork();
+      ensureSorollaPeeks();
+    });
   </script>
 </Layout>
 
@@ -162,6 +187,7 @@ const lists = allLists
     grid-column: 2;
     display: flex;
     justify-content: center;
+    min-height: 450px; /* Fixed height for consistent artwork positioning across pages */
   }
 
   .content-inner {
