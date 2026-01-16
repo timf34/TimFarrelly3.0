@@ -103,3 +103,6 @@ order: 1
 
 - [Black Mountain College](https://en.wikipedia.org/wiki/Black_Mountain_College)
   - Perhaps the most successful (experimental) art college to exist... Cy Twombly, the De Koonings, John Cage and more came through it.
+
+- [East Germany balloon escape!](https://en.wikipedia.org/wiki/East_Germany_balloon_escape)
+  - Two families engineering their way out of East Germany!
