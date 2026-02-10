@@ -21,6 +21,12 @@ Then there's Venice's San Michele Cemetery. In spite of Venice's constrained lan
 
 (I could also put in here a brief paragraph with brief notes on more places. The intensely local cemeteries in Japan's country villages, or the cemeteries in its temples given the land with the best views. Or there's Edinburgh's graveyards scattered through the city. Or the historical figures to be visited in Dublin's x cemetery. Or there's the modern monumental sights like Berlin's WW2 thing... something like this). 
 
-[some sort of link to memento mori and mentioning ernest becker, my experience of it, and Tolstoy's the death of ivan Ilyich too potentially... can be relatively short and quippy in just saying that a bit of memento mori every now and then is good for the soul... maybe something like "as Ernest Becker (hyperlink to denial of death) and Tolstoy (hyperlink to death of ivan Ilyich) might agree, a bit of memento mori every now and then is good for the soul! And thus I encourage you to keep visiting a cemetary salient on your next travels, whether that's Edinburgh, Japan, wherever).
+Modern life is unusually good at letting us forget about death. Most of us are lucky enough to live lives where it stays abstract -- something that happens somewhere else, or later, or to someone older. Thank you _progress_ ( hyperlink to https://ourworldindata.org/life-expectancy)! 
+
+But it can be grounding to be reminded every now and then. Ernest Becker's wrote about how much of civilisation is built around avoiding mortality altogether. And Tolstoy shows how deeply uncomfortable we are even acknowledging death even when its unavoidable. 
+
+A cemetery doesn’t force anything on you. It’s just a quiet walk, some beautiful surroundings, and a gentle reminder that you won’t be here forever -- which is as good a reason as any to enjoy the afternoon.
+
+A little memento mori every now and then is good for the soul. 
 
 [attach some of my own photos of different places] 
