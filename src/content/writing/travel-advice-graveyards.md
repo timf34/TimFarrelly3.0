@@ -1,6 +1,6 @@
 ---
 title: 'Travel advice: visit cemeteries'
-date: 2025-02-10
+date: 2026-02-10
 description: "A good way to understand a place and a little memento mori."
 ---
 
@@ -10,7 +10,7 @@ I started visiting them by accident. I was in Athens, trying to outsmart Google 
 
 The entrance opens into this wide space of white marble, lined with mausolea -- these grand house-like tombs, some with delicate sculptures carved into them. The further I walked in, the more beautiful it became. Quietness became its own sound, accented by birdsong. Incredible trees with long purple flowers draping down over the paths, and everywhere these sculptures -- the common motif a person at rest, carved in marble so fine it looks soft.
 
-<div style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
+<div class="image-row" style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
   <img src="/writing/travel-advice-graveyards/athens1.jpg" style="flex: 1.5; min-width: 0; height: 260px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/athens2.jpeg" style="flex: 0.56; min-width: 0; height: 260px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/athens3.webp" style="flex: 1.33; min-width: 0; height: 260px; object-fit: cover; border-radius: 4px;" />
@@ -37,7 +37,7 @@ A cemetery doesn’t force anything on you. It’s just a quiet walk, some beaut
 
 A little memento mori every now and then is good for the soul. 
 
-<div style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
+<div class="image-row" style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
   <img src="/writing/travel-advice-graveyards/venice1.jpeg" style="flex: 0.75; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/venice2.jpeg" style="flex: 0.75; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/venice3.jpeg" style="flex: 0.75; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
