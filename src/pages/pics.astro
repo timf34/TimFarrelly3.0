@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
+import ImageModal from '../components/ImageModal.astro';
 import picsData from '../data/pics-manifest.json';
 
 // Group posts by year
@@ -93,91 +94,21 @@ function getImages(images: string[]) {
     </div>
   </main>
 
-  <!-- Modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <button class="modal-close" aria-label="Close modal">&times;</button>
-    <button class="modal-prev" aria-label="Previous image">&lsaquo;</button>
-    <button class="modal-next" aria-label="Next image">&rsaquo;</button>
-    <img id="modal-img" src="" alt="" />
-    <div class="modal-counter"><span id="modal-current">1</span> / <span id="modal-total">1</span></div>
-  </div>
+  <ImageModal />
 
-  <script>
-    // Modal functionality
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
-    const modalCurrent = document.getElementById('modal-current');
-    const modalTotal = document.getElementById('modal-total');
-    const closeBtn = document.querySelector('.modal-close');
-    const prevBtn = document.querySelector('.modal-prev');
-    const nextBtn = document.querySelector('.modal-next');
+  <script is:inline>
+    // Click handlers for pics page images — grouped per month post
+    document.querySelectorAll('.month-post').forEach(function (post) {
+      var gridButtons = post.querySelectorAll('.image-btn');
+      var images = Array.from(gridButtons).map(function (btn) { return btn.getAttribute('data-src') || ''; });
 
-    let currentImages: string[] = [];
-    let currentIndex = 0;
-
-    function openModal(images: string[], index: number) {
-      currentImages = images;
-      currentIndex = index;
-      updateModalImage();
-      modal?.classList.add('open');
-      modal?.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modal?.classList.remove('open');
-      modal?.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    function updateModalImage() {
-      if (modalImg && currentImages[currentIndex]) {
-        modalImg.src = currentImages[currentIndex];
-      }
-      if (modalCurrent) modalCurrent.textContent = String(currentIndex + 1);
-      if (modalTotal) modalTotal.textContent = String(currentImages.length);
-    }
-
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
-      updateModalImage();
-    }
-
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % currentImages.length;
-      updateModalImage();
-    }
-
-    // Event listeners
-    closeBtn?.addEventListener('click', closeModal);
-    prevBtn?.addEventListener('click', prevImage);
-    nextBtn?.addEventListener('click', nextImage);
-
-    modal?.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (!modal?.classList.contains('open')) return;
-      if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowLeft') prevImage();
-      if (e.key === 'ArrowRight') nextImage();
-    });
-
-    // Click handlers for images
-    document.querySelectorAll('.month-post').forEach(post => {
-      // Get unique images from grid buttons only (carousel has same images)
-      const gridButtons = post.querySelectorAll('.image-btn');
-      const images = Array.from(gridButtons).map(btn => btn.getAttribute('data-src') || '');
-
-      // Attach click handlers to both grid and carousel buttons
-      gridButtons.forEach((btn, idx) => {
-        btn.addEventListener('click', () => openModal(images, idx));
+      gridButtons.forEach(function (btn, idx) {
+        btn.addEventListener('click', function () { window.openImageModal(images, idx); });
       });
 
-      const carouselButtons = post.querySelectorAll('.carousel-slide');
-      carouselButtons.forEach((btn, idx) => {
-        btn.addEventListener('click', () => openModal(images, idx));
+      var carouselButtons = post.querySelectorAll('.carousel-slide');
+      carouselButtons.forEach(function (btn, idx) {
+        btn.addEventListener('click', function () { window.openImageModal(images, idx); });
       });
     });
   </script>
@@ -283,82 +214,6 @@ function getImages(images: string[]) {
     display: none;
   }
 
-  /* Modal */
-  .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
-    z-index: 10000;
-  }
-
-  .modal.open {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .modal img {
-    max-width: 90vw;
-    max-height: 90vh;
-    object-fit: contain;
-  }
-
-  .modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: 2.5rem;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0.5rem;
-  }
-
-  .modal-prev,
-  .modal-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 3rem;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 1rem;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-
-  .modal-prev:hover,
-  .modal-next:hover {
-    opacity: 1;
-  }
-
-  .modal-prev {
-    left: 1rem;
-  }
-
-  .modal-next {
-    right: 1rem;
-  }
-
-  .modal-counter {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-family: "Roboto Mono", monospace;
-    font-size: 0.875rem;
-  }
-
   /* Mobile Styles */
   @media (max-width: 900px) {
     .pics-container {
@@ -418,18 +273,5 @@ function getImages(images: string[]) {
       object-fit: cover;
     }
 
-    .modal-prev,
-    .modal-next {
-      font-size: 2rem;
-      padding: 0.5rem;
-    }
-
-    .modal-prev {
-      left: 0.5rem;
-    }
-
-    .modal-next {
-      right: 0.5rem;
-    }
   }
 </style>

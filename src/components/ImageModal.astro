@@ -1,0 +1,167 @@
+<!-- Reusable image modal/lightbox component.
+     Usage: Include once on the page, then call window.openImageModal(images, index) from JS. -->
+
+<div id="image-modal" class="image-modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="image-modal-close" aria-label="Close modal">&times;</button>
+  <button class="image-modal-prev" aria-label="Previous image">&lsaquo;</button>
+  <button class="image-modal-next" aria-label="Next image">&rsaquo;</button>
+  <img id="image-modal-img" src="" alt="" />
+  <div class="image-modal-counter"><span id="image-modal-current">1</span> / <span id="image-modal-total">1</span></div>
+</div>
+
+<script is:inline>
+(function () {
+  var modal = document.getElementById('image-modal');
+  var modalImg = document.getElementById('image-modal-img');
+  var modalCurrent = document.getElementById('image-modal-current');
+  var modalTotal = document.getElementById('image-modal-total');
+  var closeBtn = modal.querySelector('.image-modal-close');
+  var prevBtn = modal.querySelector('.image-modal-prev');
+  var nextBtn = modal.querySelector('.image-modal-next');
+
+  var currentImages = [];
+  var currentIndex = 0;
+
+  function updateModalImage() {
+    if (modalImg && currentImages[currentIndex]) {
+      modalImg.src = currentImages[currentIndex];
+    }
+    if (modalCurrent) modalCurrent.textContent = String(currentIndex + 1);
+    if (modalTotal) modalTotal.textContent = String(currentImages.length);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    updateModalImage();
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    updateModalImage();
+  }
+
+  // Public API
+  window.openImageModal = function (images, index) {
+    currentImages = images;
+    currentIndex = index;
+    updateModalImage();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  closeBtn.addEventListener('click', closeModal);
+  prevBtn.addEventListener('click', prevImage);
+  nextBtn.addEventListener('click', nextImage);
+
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
+  });
+})();
+</script>
+
+<style is:global>
+  .image-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 10000;
+  }
+
+  .image-modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .image-modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .image-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.5rem;
+  }
+
+  .image-modal-prev,
+  .image-modal-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .image-modal-prev:hover,
+  .image-modal-next:hover {
+    opacity: 1;
+  }
+
+  .image-modal-prev {
+    left: 1rem;
+  }
+
+  .image-modal-next {
+    right: 1rem;
+  }
+
+  .image-modal-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 900px) {
+    .image-modal-prev,
+    .image-modal-next {
+      font-size: 2rem;
+      padding: 0.5rem;
+    }
+
+    .image-modal-prev {
+      left: 0.5rem;
+    }
+
+    .image-modal-next {
+      right: 0.5rem;
+    }
+  }
+</style>

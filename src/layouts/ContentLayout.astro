@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import MobileNav from '../components/MobileNav.astro';
+import ImageModal from '../components/ImageModal.astro';
 
 interface Props {
   title: string;
@@ -70,6 +71,25 @@ else if (isPics) currentPage = 'pics';
     </article>
 
   </main>
+
+  <ImageModal />
+
+  <script is:inline>
+    // Auto-discover images in prose content and wire up modal click handlers
+    (function () {
+      var prose = document.querySelector('.prose');
+      if (!prose) return;
+      var imgs = Array.from(prose.querySelectorAll('img'));
+      if (!imgs.length) return;
+      var srcs = imgs.map(function (img) { return img.src; });
+      imgs.forEach(function (img, i) {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function () {
+          if (window.openImageModal) window.openImageModal(srcs, i);
+        });
+      });
+    })();
+  </script>
 
   <script>
     // Time display
