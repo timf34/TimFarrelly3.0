@@ -1,8 +1,7 @@
 ---
-title: '"Travel advice: visit cemeteries"'
+title: 'Travel advice: visit cemeteries'
 date: 2025-02-10
 description: "A good way to understand a place and a little memento mori."
-published: true
 ---
 
 I think cemeteries are one of the most underrated things to visit when travelling. 
