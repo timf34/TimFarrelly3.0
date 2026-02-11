@@ -349,5 +349,27 @@ else if (isPics) currentPage = 'pics';
     .prose :global(.photo-grid) {
       grid-template-columns: 1fr;
     }
+
+    /* Image rows become horizontally scrollable carousels on mobile */
+    .prose :global(.image-row) {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex-wrap: nowrap !important;
+    }
+
+    .prose :global(.image-row::-webkit-scrollbar) {
+      display: none;
+    }
+
+    .prose :global(.image-row img) {
+      flex: none !important;
+      width: 75vw;
+      max-width: 300px;
+      height: 220px !important;
+      scroll-snap-align: start;
+    }
   }
 </style>

@@ -46,7 +46,7 @@ A little memento mori every now and then is good for the soul.
 
 *San Michele Cemetery, Venice*
 
-<div style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
+<div class="image-row" style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
   <img src="/writing/travel-advice-graveyards/stockholm1.jpeg" style="flex: 0.75; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/stockholm2.webp" style="flex: 0.98; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
   <img src="/writing/travel-advice-graveyards/stockholm3.jpg" style="flex: 0.8; min-width: 0; height: 280px; object-fit: cover; border-radius: 4px;" />
