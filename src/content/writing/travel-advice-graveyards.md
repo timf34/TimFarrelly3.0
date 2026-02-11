@@ -8,7 +8,7 @@ I think cemeteries are one of the most underrated things to visit when travellin
 
 I started visiting them by accident. I was in Athens, trying to outsmart Google Maps after it served me a long looping route around [Athens First Cemetery](https://en.wikipedia.org/wiki/First_Cemetery_of_Athens), which I assumed I'd be able to cut through. I walked in trying to save five minutes, and ended up staying a couple hours. 
 
-The entrance opens into this wide space of white marble, lined with mausolea -- these grand house-like tombs, some with delicate sculptures carved into them. The further I walked in, the more beautiful it became. Quietness became its own sound, accented by birdsong. Incredible trees with long purple flowers draping down over the paths, and everywhere these sculptures -- the common motif a person at rest, carved in marble so fine it looks soft.
+The entrance opens into this wide space of white marble, lined with mausolea -- these grand house-like tombs, some with delicate sculptures carved into them. The further I walked in, the more beautiful it became. Quietness became its own sound, accented by birdsong. Incredible trees with long purple flowers draping down over the paths. And everywhere these sculptures, the common motif a person at rest, carved in marble so fine it looks soft.
 
 <div class="image-row" style="display: flex; gap: 8px; margin: 1.5rem 0 0.25rem;">
   <img src="/writing/travel-advice-graveyards/athens1.jpg" style="flex: 1.5; min-width: 0; height: 260px; object-fit: cover; border-radius: 4px;" />
