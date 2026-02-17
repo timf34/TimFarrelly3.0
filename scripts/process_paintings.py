@@ -87,6 +87,8 @@ PAINTINGS = {
     "twins": "twins.jpg",
     "how-to-entangle-the-universe-in-a-spiderweb": "how-to-entangle-the-universe-in-a-spiderweb-toms-saraceno-oceans-of-air52557994836o_1240_0.webp",
     "alberi-libro": "giuseppe_penone_Alberi libro (Book Trees).jpg",
+    "among-the-olive-trees-capri": "among_the_olive_tress_capri_sargent.jpg",
+    "dove": "dove_conor_fallon.jpg",
 }
 
 
