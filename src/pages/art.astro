@@ -3,77 +3,73 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import MobileNav from '../components/MobileNav.astro';
 
-// Paintings data
+// Paintings data — images served locally as WebP from /paintings/
 const paintings = [
-  { src: "https://i.imgur.com/8RyfsHF.jpeg", title: "The Isle of the Dead", artist: "Arnold Bocklin" },
-  { src: "https://i.imgur.com/Zm1iPbr.jpeg", title: "Carnation, Lily, Lily Rose", artist: "John Singer Sargent" },
-  { src: "https://i.imgur.com/F2HciuD.jpeg", title: "Two Men Contemplating the Moon", artist: "Caspar David Friedrich" },
-  { src: "https://i.imgur.com/sDvV5Pf.jpeg", title: "Achill Horses", artist: "Mainie Jellett" },
-  { src: "https://i.imgur.com/n1sUS1d.jpeg", title: "Vertumnus", artist: "Giuseppe Arcimboldo" },
-  { src: "https://i.imgur.com/UGjKde6.jpeg", title: "The Course of Empire: Destruction", artist: "Thomas Cole" },
-  { src: "https://i.imgur.com/JLxtiA2.png", title: "Winter Landscape", artist: "Caspar David Friedrich" },
-  { src: "https://i.imgur.com/debPP8m.jpeg", title: "Singing Horseman", artist: "J.B. Yeats" },
-  { src: "https://i.imgur.com/rrOWjv9.jpeg", title: "Hope", artist: "George Frederic Watts" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/RokebyVenus.jpg/2880px-RokebyVenus.jpg", title: "Rokeby Venus", artist: "Velazquez" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Caspar_David_Friedrich_-_On_the_Sailing_Boat_-_WGA8255.jpg", title: "On Board a Sailing Ship", artist: "Caspar David Friedrich" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/600px-Nighthawks_by_Edward_Hopper_1942.jpg", title: "Nighthawks", artist: "Edward Hopper" },
-  { src: "https://i.imgur.com/7vq6LtF.jpeg", title: "Springtime", artist: "Claude Monet" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Caspar_David_Friedrich_-_Tageszeitenzyklus%2C_Der_Morgen_%281821-22%29.jpg", title: "The Morning", artist: "Caspar David Friedrich" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Caspar_David_Friedrich_-_Der_M%C3%B6nch_am_Meer_-_Google_Art_Project.jpg/2560px-Caspar_David_Friedrich_-_Der_M%C3%B6nch_am_Meer_-_Google_Art_Project.jpg", title: "The Monk by the Sea", artist: "Caspar David Friedrich" },
-  { src: "https://i.imgur.com/A1kYYtU.jpeg", title: "Self Portrait with Death Playing The Fiddle", artist: "Arnold Bocklin" },
-  { src: "https://i.imgur.com/v1Ele4Q.jpeg", title: "One: No. 31", artist: "Jackson Pollock" },
-  { src: "https://i.imgur.com/XvTIRHH.jpeg", title: "Ulysses Deriding Polyphemus", artist: "JMW Turner" },
-  { src: "https://i.imgur.com/HFDk7vc.jpeg", title: "Ulysses and the Sirens", artist: "John William Waterhouse" },
-  { src: "https://i.imgur.com/SLHJIg0.png", title: "Nude Binding Her Hair", artist: "Koide Narashige" },
-  { src: "https://i.imgur.com/8ikWlhg.jpeg", title: "Overflow", artist: "Andrew Wyeth" },
-  { src: "https://i.imgur.com/XRtSPab.jpeg", title: "The Mountain Mists", artist: "Herbert James Draper" },
-  { src: "https://i.imgur.com/eJmeTux.jpeg", title: "Pieta", artist: "Mainie Jellett" },
-  { src: "https://i.imgur.com/bhRicxw.jpeg", title: "New York Movie", artist: "Edward Hopper" },
-  { src: "https://i.imgur.com/jf59cTx.jpeg", title: "The Lovers", artist: "Rene Magritte" },
-  { src: "https://i.imgur.com/RkwmYEQ.jpeg", title: "The Fountain of Inspiration", artist: "Constant Montald" },
-  { src: "https://i.imgur.com/pl7Iosn.jpeg", title: "Nude (1916)", artist: "Amedeo Modigliani" },
-  { src: "https://i.imgur.com/qR4oPAG.jpeg", title: "Satan's Treasures", artist: "Jean Delville" },
-  { src: "https://i.imgur.com/fONsk2u.jpeg", title: "Engloutissement", artist: "André Masson" },
-  { src: "https://i.imgur.com/YtcRU9f.jpeg", title: "October", artist: "Jules Bastien-Lepage" },
-  { src: "https://i.imgur.com/gnc7Roi.jpeg", title: "An Experiment on a Bird in the Air Pump", artist: "Joseph Wright" },
-  { src: "https://i.imgur.com/TAWkuh6.jpeg", title: "Sadko", artist: "Ilya Repin" },
-  { src: "https://i.imgur.com/QGcGN3D.jpeg", title: "A Covent Garden, Brittany", artist: "William Leech" },
-  { src: "https://i.imgur.com/ScoHT7Y.jpeg", title: "Pandora", artist: "Odilon Redon" },
-  { src: "https://i.imgur.com/bCryV1i.jpeg", title: "Morning", artist: "Ilya Glazunov" },
-  { src: "https://i.imgur.com/Pe92brF.jpeg", title: "Pygmalion and Galatea", artist: "Jean-Leon Gerome" },
-  { src: "https://i.imgur.com/U9oQNrV.jpeg", title: "The Voyage of Life: Childhood", artist: "Thomas Cole" },
-  { src: "https://i.imgur.com/d3AljHv.jpeg", title: "The Voyage of Life: Youth", artist: "Thomas Cole" },
-  { src: "https://i.imgur.com/MvjMBQg.jpeg", title: "The Voyage of Life: Manhood", artist: "Thomas Cole" },
-  { src: "https://i.imgur.com/ZynEcJo.jpeg", title: "The Voyage of Life: Old Age", artist: "Thomas Cole" },
-  { src: "https://i.imgur.com/lttcCru.jpeg", title: "Bal Tabarin", artist: "Jan Sluijters" },
-  { src: "https://i.imgur.com/KscSzw7.jpeg", title: "Le Ballet", artist: "Gaston La Touche" },
-  { src: "https://i.imgur.com/GdzHYPQ.jpeg", title: "'Mr Gilhooley by Liam O'Flaherty' for the Geneva Window", artist: "Harry Clarke" },
-  { src: "https://i.imgur.com/GbE6eOv.jpg", title: "Opus 217. Against the Enamel of a Background Rhythmic with Beats and Angles, Tones, and Tints, Portrait of M. Félix Fénéon in 1890", artist: "Paul Signac" },
-  { src: "https://i.imgur.com/HJmVxZQ.jpeg", title: "Sunflowers from Petrol Station", artist: "Banksy" },
-  { src: "https://i.imgur.com/OeomCYN.jpeg", title: "Atem (Breath)", artist: "Gerhard Richter" },
-  { src: "https://i.imgur.com/jWmLmhG.jpeg", title: "Siesta", artist: "Pierre Bonnard" },
-  { src: "https://i.imgur.com/d0MfDyi.jpeg", title: "The Ball", artist: "Gaston La Touche" },
-  { src: "https://i.imgur.com/M1H1uVu.jpeg", title: "Susanna at her Bath", artist: "Francesco Hayez" },
-  { src: "https://i.imgur.com/uxDMuhE.jpeg", title: "The Lament for Icarus", artist: "Herbert James Draper" },
-  { src: "https://i.imgur.com/4gaeb5B.jpeg", title: "Ariadne", artist: "John Lavery" },
-  { src: "https://i.imgur.com/BlrQN2a.jpeg", title: "Graceful Ascent", artist: "Vasily Kandinsky" },
-  { src: "https://i.imgur.com/h7icPfS.jpeg", title: "Of Lilies and Remains", artist: "Richard Mosse" },
-  { src: "https://i.imgur.com/VCU3BEs.jpeg", title: "In Morocco", artist: "John Lavery" },
-  { src: "https://i.imgur.com/qB2bCHD.jpeg", title: "Catherine and Midnight", artist: "Takako Yamaguchi" },
-  { src: "https://i.imgur.com/P1YLKer.jpeg", title: "The Chess Game", artist: "John Singer Sargent" },
-  { src: "https://i.imgur.com/DbWB14W.jpeg", title: "The Truth", artist: "Jules Lefebvre" },
-  { src: "https://i.imgur.com/CUMSYa2.jpeg", title: "Bernard and Roger, at the château de Vineuil at Bourré", artist: "Louis-Maurice Boutet De Monvel" },
-  { src: "https://i.imgur.com/ogY8C0G.jpeg", title: "The Knight of the Flowers", artist: "Georges Rochegrosse" },
-  { src: "https://i.imgur.com/0TTXz8l.jpeg", title: "Anguish", artist: "August Friedrich Schenck" },
+  { slug: "isle-of-the-dead", title: "The Isle of the Dead", artist: "Arnold Bocklin" },
+  { slug: "carnation-lily-lily-rose", title: "Carnation, Lily, Lily Rose", artist: "John Singer Sargent" },
+  { slug: "two-men-contemplating-the-moon", title: "Two Men Contemplating the Moon", artist: "Caspar David Friedrich" },
+  { slug: "achill-horses", title: "Achill Horses", artist: "Mainie Jellett" },
+  { slug: "vertumnus", title: "Vertumnus", artist: "Giuseppe Arcimboldo" },
+  { slug: "course-of-empire-destruction", title: "The Course of Empire: Destruction", artist: "Thomas Cole" },
+  { slug: "winter-landscape", title: "Winter Landscape", artist: "Caspar David Friedrich" },
+  { slug: "singing-horseman", title: "Singing Horseman", artist: "J.B. Yeats" },
+  { slug: "hope", title: "Hope", artist: "George Frederic Watts" },
+  { slug: "rokeby-venus", title: "Rokeby Venus", artist: "Velazquez" },
+  { slug: "on-board-a-sailing-ship", title: "On Board a Sailing Ship", artist: "Caspar David Friedrich" },
+  { slug: "nighthawks", title: "Nighthawks", artist: "Edward Hopper" },
+  { slug: "springtime", title: "Springtime", artist: "Claude Monet" },
+  { slug: "the-morning", title: "The Morning", artist: "Caspar David Friedrich" },
+  { slug: "the-monk-by-the-sea", title: "The Monk by the Sea", artist: "Caspar David Friedrich" },
+  { slug: "self-portrait-with-death", title: "Self Portrait with Death Playing The Fiddle", artist: "Arnold Bocklin" },
+  { slug: "one-no-31", title: "One: No. 31", artist: "Jackson Pollock" },
+  { slug: "ulysses-deriding-polyphemus", title: "Ulysses Deriding Polyphemus", artist: "JMW Turner" },
+  { slug: "ulysses-and-the-sirens", title: "Ulysses and the Sirens", artist: "John William Waterhouse" },
+  { slug: "nude-binding-her-hair", title: "Nude Binding Her Hair", artist: "Koide Narashige" },
+  { slug: "overflow", title: "Overflow", artist: "Andrew Wyeth" },
+  { slug: "the-mountain-mists", title: "The Mountain Mists", artist: "Herbert James Draper" },
+  { slug: "pieta", title: "Pieta", artist: "Mainie Jellett" },
+  { slug: "new-york-movie", title: "New York Movie", artist: "Edward Hopper" },
+  { slug: "the-lovers", title: "The Lovers", artist: "Rene Magritte" },
+  { slug: "fountain-of-inspiration", title: "The Fountain of Inspiration", artist: "Constant Montald" },
+  { slug: "nude-1916", title: "Nude (1916)", artist: "Amedeo Modigliani" },
+  { slug: "satans-treasures", title: "Satan's Treasures", artist: "Jean Delville" },
+  { slug: "engloutissement", title: "Engloutissement", artist: "André Masson" },
+  { slug: "october", title: "October", artist: "Jules Bastien-Lepage" },
+  { slug: "experiment-bird-air-pump", title: "An Experiment on a Bird in the Air Pump", artist: "Joseph Wright" },
+  { slug: "sadko", title: "Sadko", artist: "Ilya Repin" },
+  { slug: "covent-garden-brittany", title: "A Covent Garden, Brittany", artist: "William Leech" },
+  { slug: "pandora", title: "Pandora", artist: "Odilon Redon" },
+  { slug: "morning-glazunov", title: "Morning", artist: "Ilya Glazunov" },
+  { slug: "pygmalion-and-galatea", title: "Pygmalion and Galatea", artist: "Jean-Leon Gerome" },
+  { slug: "voyage-of-life-childhood", title: "The Voyage of Life: Childhood", artist: "Thomas Cole" },
+  { slug: "voyage-of-life-youth", title: "The Voyage of Life: Youth", artist: "Thomas Cole" },
+  { slug: "voyage-of-life-manhood", title: "The Voyage of Life: Manhood", artist: "Thomas Cole" },
+  { slug: "voyage-of-life-old-age", title: "The Voyage of Life: Old Age", artist: "Thomas Cole" },
+  { slug: "bal-tabarin", title: "Bal Tabarin", artist: "Jan Sluijters" },
+  { slug: "le-ballet", title: "Le Ballet", artist: "Gaston La Touche" },
+  { slug: "mr-gilhooley-geneva-window", title: "'Mr Gilhooley by Liam O'Flaherty' for the Geneva Window", artist: "Harry Clarke" },
+  { slug: "opus-217-felix-feneon", title: "Opus 217. Against the Enamel of a Background Rhythmic with Beats and Angles, Tones, and Tints, Portrait of M. Félix Fénéon in 1890", artist: "Paul Signac" },
+  { slug: "sunflowers-petrol-station", title: "Sunflowers from Petrol Station", artist: "Banksy" },
+  { slug: "atem-breath", title: "Atem (Breath)", artist: "Gerhard Richter" },
+  { slug: "siesta", title: "Siesta", artist: "Pierre Bonnard" },
+  { slug: "the-ball", title: "The Ball", artist: "Gaston La Touche" },
+  { slug: "susanna-at-her-bath", title: "Susanna at her Bath", artist: "Francesco Hayez" },
+  { slug: "lament-for-icarus", title: "The Lament for Icarus", artist: "Herbert James Draper" },
+  { slug: "ariadne", title: "Ariadne", artist: "John Lavery" },
+  { slug: "graceful-ascent", title: "Graceful Ascent", artist: "Vasily Kandinsky" },
+  { slug: "of-lilies-and-remains", title: "Of Lilies and Remains", artist: "Richard Mosse" },
+  { slug: "in-morocco", title: "In Morocco", artist: "John Lavery" },
+  { slug: "catherine-and-midnight", title: "Catherine and Midnight", artist: "Takako Yamaguchi" },
+  { slug: "the-chess-game", title: "The Chess Game", artist: "John Singer Sargent" },
+  { slug: "the-truth", title: "The Truth", artist: "Jules Lefebvre" },
+  { slug: "bernard-and-roger", title: "Bernard and Roger, at the château de Vineuil at Bourré", artist: "Louis-Maurice Boutet De Monvel" },
+  { slug: "knight-of-the-flowers", title: "The Knight of the Flowers", artist: "Georges Rochegrosse" },
+  { slug: "anguish", title: "Anguish", artist: "August Friedrich Schenck" },
+  { slug: "twins", title: "Twins", artist: "Maurice Boutet de Monvel" },
+  { slug: "how-to-entangle-the-universe-in-a-spiderweb", title: "How to Entangle the Universe in a Spiderweb", artist: "Tomás Saraceno" },
+  { slug: "alberi-libro", title: "Alberi Libro (Book Trees)", artist: "Giuseppe Penone" },
 ];
 
-// Helper to get thumbnail URL for imgur images
-function getThumbnail(src: string): string {
-  if (src.includes("imgur.com")) {
-    return src.replace(/\.(jpeg|jpg|png)$/i, "h.$1");
-  }
-  return src;
-}
 ---
 
 <Layout title="Art Gallery | Tim Farrelly">
@@ -101,8 +97,8 @@ function getThumbnail(src: string): string {
       {paintings.map((painting, index) => (
         <figure data-index={index}>
           <img
-            src={getThumbnail(painting.src)}
-            data-original={painting.src}
+            src={`/paintings/${painting.slug}-thumb.webp`}
+            data-original={`/paintings/${painting.slug}.webp`}
             alt={`${painting.title} by ${painting.artist}`}
             loading="lazy"
           />
