@@ -35,3 +35,7 @@ src/content/lists/short-stories.md
 src/content/lists/hot-takes.md
 src/content/lists/trinity-bucket-list.md
 src/content/lists/best-githubs.md
+public/paintings/downloads
+
+# generated thumbnails
+public/pics/thumbs/

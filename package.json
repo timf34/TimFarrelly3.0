@@ -3,12 +3,17 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node scripts/gen-thumbnails.js",
     "dev": "astro dev",
+    "prebuild": "node scripts/gen-thumbnails.js",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.16.5"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

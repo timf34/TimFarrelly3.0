@@ -26,6 +26,11 @@ for (const year of years) {
 function getImages(images: string[]) {
   return images.filter(img => !img.endsWith('.mp4'));
 }
+
+function getThumbSrc(img: string) {
+  const base = img.replace(/\.[^.]+$/, '');
+  return `/pics/thumbs/${base}.webp`;
+}
 ---
 
 <Layout title="Pics:) | Tim Farrelly">
@@ -72,7 +77,7 @@ function getImages(images: string[]) {
               <div class="image-grid">
                 {getImages(post.images).map((img, idx) => (
                   <button class="image-btn" data-src={`/pics/${img}`} data-index={idx}>
-                    <img src={`/pics/${img}`} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" />
+                    <img src={getThumbSrc(img)} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>
@@ -82,7 +87,7 @@ function getImages(images: string[]) {
                 <div class="carousel-track">
                   {getImages(post.images).map((img, idx) => (
                     <button class="carousel-slide" data-src={`/pics/${img}`} data-index={idx}>
-                      <img src={`/pics/${img}`} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" />
+                      <img src={getThumbSrc(img)} alt={`${post.title} - Image ${idx + 1}`} loading="lazy" decoding="async" />
                     </button>
                   ))}
                 </div>
