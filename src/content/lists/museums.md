@@ -8,13 +8,15 @@ title: "Museums & Exhibitions"
 - National Gallery of Victoria, Melbourne
   - Pierre Bonnard, 2023
   - Grace Crowley & Ralph Balson, 2024
+  - Vivienne Westwood & Rei Kawakubo, 2026*
 - Heide Museum of Modern Art, Melbourne
-- Potter Museum of Art, Melbourne
+- Ian Potter Museum of Art, Melbourne
+  - Martin Grant, 2026
 
 ### Austria
 - Leopold Museum
   - Vienna 1900, 2022
-  - Alfred Kubin, 2022
+  - Alfred Kubin, 2022*
 - Albertina Museum
 - Belvedere Palace
 
@@ -38,8 +40,12 @@ title: "Museums & Exhibitions"
   - Winslow Homer, 2022
 - Tate Modern, London
   - Expressionists: Kandinsky, Münter and The Blue Rider, 2024
+  - Nigerian Modernism, 2026
+  - Frida Kahlo, 2026
+  - Julio Le Parc, 2026*
 - Tate Britain, London
   - Sargent and Fashion, 2024
+  - James McNeil Whistler, 2026 
 - Kenwood House, London
 - Sir John Soane Museum, London
 - Barbican Art Gallery, London
@@ -49,12 +55,18 @@ title: "Museums & Exhibitions"
   - Edward Munch, 2025
 - The Wallace Collection, London
 - The Courtauld Gallery, London
+  - Barbara Hepworth, 2026
 - Serpentine Gallery, London
   - Giuseppe Penone, 2025*
   - The Call (Matt Dryhurst & Holly Herndon), 2024
+  - Cecily Brown, 2026
+  - David Hackney, 2026
 - Victoria & Albert, London
+  - Schiaperelli, 2026*
 - The British Museum, London
   - Hiroshige, 2025
+- Hayward Gallery, London 
+  - Anish Kapoor, 2026*
 - Manchester Art Gallery, Manchester
 - The Whitworth, Manchester
 - The Fitzwilliam Museum, Cambridge
@@ -103,6 +115,10 @@ title: "Museums & Exhibitions"
 
 ### Italy
 - The Vatican, Rome
+- Palazzo Barberini, Rome
+- Palazzo Strozzi, Florence 
+  - Rothko in Florence, 2026
+- Peggy Guggenheim Collection, Venice 2026
 
 ### Japan
 - The National Museum of Western Art, Tokyo
@@ -124,6 +140,10 @@ title: "Museums & Exhibitions"
 - Rijksmuseum, Amsterdam
 - Stedelijk Museum, Amsterdam
 - Mauritshuis, The Hague
+
+### Norway
+- Munch Museum, Oslo 
+- National Museum, Oslo 
 
 ### Portugal
 - Museu Calouste Gulbenkian, Lisbon
