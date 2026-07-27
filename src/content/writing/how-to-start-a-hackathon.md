@@ -4,7 +4,7 @@ date: 2026-07-27
 description: "Things I learned helping organise Hack Trinity, Hack Ireland and Hack Europe."
 ---
 
-This is not intended to be a comprehensive guide to running a hackathon. It is mostly a collection of things I learned while helping organise Hack Trinity, Hack Ireland and Hack Europe, particularly the things that were less obvious to me at the beginning or have become more clear over time.
+This is not intended to be a comprehensive guide to running a hackathon. It is mostly a collection of things I learned while helping organise Hack Trinity, [Hack Ireland](https://www.hackireland.com/) and [Hack Europe](https://hackeurope.com), particularly the things that were less obvious to me at the beginning or have become more clear over time.
 
 ## 1. Founding narrative matters
 
@@ -44,7 +44,7 @@ You don't need to have everything figured out. Just make sure there's always a p
 
 Be intentional about who you approach to partner with early on.
 
-Your first believers help set the slope of your momentum. Beyond providing you with money, a venue or another resource, they'll lend you credibility. Once respected people and organisations have backed you, every conversation afterwards becomes easier if it includes "we're working with …".
+Your first believers help set the slope of your momentum. Beyond providing you with advice, money, a venue or another resource, they'll lend you credibility. Once respected people and organisations have backed you, every conversation afterwards becomes easier if it includes "we're working with …".
 
 Momentum of this kind can compound very quickly.
 
