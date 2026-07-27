@@ -54,7 +54,7 @@ Most people approach recruiting for hackathons by advertising, posting on Instag
 
 If you care about the hackathon, you should be excited to find the best talent to take part in it. This is one of those places where [doing things that don't scale](https://www.paulgraham.com/ds.html) pays off enormously. Reach out to people directly.
 
-Ask relevant professors who their smartest students are. Ask student society leads who are their most energetic volunteers. Use the Github API to find the most popular open source developers near you. Use Google Scholar to find the most innovative researchers near you. Always be listening!
+Ask relevant professors who their smartest students are. Ask student society leads who are their most energetic volunteers. Use the Github API to find the most popular open source developers near you. Use Google Scholar to find the most innovative researchers near you. Always be listening for talent!
 
 Once you find one node (a talented person), you've often unlocked a whole new social graph which may be fractal. Ask them who their friends are. Repeat.
 
