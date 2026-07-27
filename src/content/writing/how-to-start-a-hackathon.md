@@ -72,7 +72,7 @@ Just as importantly, think about the person you're actually talking to. What are
 
 ## 8. Building something sustainable
 
-If this is a student hackathon, you'll likely graduate! And the torch will need to be passed on. Keep this salient at all times.
+If this is a student hackathon, you'll likely graduate eventually! And the torch will need to be passed on. Keep this salient at all times.
 
 Give the younger team members the confidence and experience to hold the torch. Give them meaningful opportunities to take on responsibility early. Suggest things to them directly; the ones who will be good will usually rise and take them on.
 
