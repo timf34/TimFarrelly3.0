@@ -56,7 +56,7 @@ If you care about the hackathon, you should be excited to find the best talent t
 
 Ask relevant professors who their smartest students are. Ask student society leads who are their most energetic volunteers. Use the Github API to find the most popular open source developers near you. Use Google Scholar to find the most innovative researchers near you. Always be listening for talent!
 
-Once you find one node (a talented person), you've often unlocked a whole new social graph which may be fractal. Ask them who their friends are. Repeat.
+Once you find one node (a talented person), you've often unlocked a whole new social graph which might be fractal if you're lucky! Ask them who their friends are. Repeat.
 
 The incentives when organising a hackathon can often push you towards focusing on the number of applicants and how eager they are to attend. While those are important, I strongly encourage you to focus on the quality. A tangible sense of a high talent bar will create a qualitatively different atmosphere and vibe, and everyone will take the hackathon more seriously.
 
