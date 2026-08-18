@@ -88,7 +88,7 @@ You should also think carefully about how the culture and vibe of the event can 
 - Allow for much more time than you expect between confirming sponsorship and the money actually hitting your bank account.
 - Leverage existing communities (i.e. student societies) for distribution.
 - Make the event easy to share.
-- Gamify things for the participants where possible (i.e. optional CTF in the application process, live leaderboard tracking git commits during the hackathon, etc.).
+- Gamify things for the participants where possible (i.e. optional CTF in the application process, [live leaderboard tracking git commits during the hackathon](https://github.com/timf34/HackIrelandLeaderboard), etc.).
 - Recruit more volunteers than you think you'll need for the hackathon itself. More hands are almost always useful.
 - Be clear and transparent about the judging process and what you are hoping to see.
 - Be conscious of the incentives created by your judging process. Participants may otherwise optimise for polished presentations over interesting underlying technology and projects. Github repos should be inspected!
