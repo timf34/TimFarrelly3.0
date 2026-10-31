@@ -89,6 +89,8 @@ PAINTINGS = {
     "alberi-libro": "giuseppe_penone_Alberi libro (Book Trees).jpg",
     "among-the-olive-trees-capri": "among_the_olive_tress_capri_sargent.jpg",
     "dove": "dove_conor_fallon.jpg",
+    "ecce-homo": "Ecce_homo_by_Antonio_Ciseri.jpg",
+    "scheherazade": "scheherazade_arthur_steeton.jpg",
 }
 
 
